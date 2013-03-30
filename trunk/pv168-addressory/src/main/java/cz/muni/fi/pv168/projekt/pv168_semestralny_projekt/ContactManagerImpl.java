@@ -1,7 +1,7 @@
 package cz.muni.fi.pv168.projekt.pv168_semestralny_projekt;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
+//import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -21,14 +21,15 @@ import javax.sql.DataSource;
 public class ContactManagerImpl implements ContactManager 
 {
     private static final Logger LOGGER = Logger.getLogger(Addressory.class.getName());
-    private static final String URL = "jdbc:derby://localhost:1527/skuska";
-    private static final String USER = "martin";
-    private static final String PASSWORD = "password";
     private DataSource ds;
 
-    public ContactManagerImpl() 
+    public ContactManagerImpl(DataSource ds) 
     {
-        
+        if (ds == null)
+        {
+            throw new IllegalArgumentException("data source can not be null");
+        }
+        this.ds = ds;
     }
     
     public void setDataSource(DataSource ds)
@@ -54,9 +55,9 @@ public class ContactManagerImpl implements ContactManager
         validateContact(contact);
                 
         try (
-                Connection conn = DriverManager.getConnection(URL, USER, PASSWORD);
+                Connection conn = ds.getConnection();//DriverManager.getConnection(URL, USER, PASSWORD);
                 PreparedStatement st1 = conn.prepareStatement(
-                    "INSERT INTO contact (firstName, lastName, address) VALUES (?, ?, ?)",
+                    "INSERT INTO contact (first_name, last_name, address) VALUES (?, ?, ?)",
                     Statement.RETURN_GENERATED_KEYS);
                 PreparedStatement st2 = conn.prepareStatement(
                     "INSERT INTO numbers (contact_id, type, number) VALUES (?, ?, ?)");
@@ -111,9 +112,9 @@ public class ContactManagerImpl implements ContactManager
         validateContact(contact);
         
         try (
-                Connection conn = DriverManager.getConnection(URL, USER, PASSWORD);
+                Connection conn = ds.getConnection();//DriverManager.getConnection(URL, USER, PASSWORD);
                 PreparedStatement st1 = conn.prepareStatement(
-                    "UPDATE contact SET firstName = ?, lastName = ?, address = ? WHERE id = ?");
+                    "UPDATE contact SET first_name = ?, last_name = ?, address = ? WHERE id = ?");
                 PreparedStatement st2 = conn.prepareStatement(
                     "INSERT INTO numbers (contact_id, type, number) VALUES (?, ?, ?)");
                 PreparedStatement st3 = conn.prepareStatement(
@@ -157,7 +158,7 @@ public class ContactManagerImpl implements ContactManager
         }
                 
         try (
-                Connection conn = DriverManager.getConnection(URL, USER, PASSWORD);
+                Connection conn = ds.getConnection();//DriverManager.getConnection(URL, USER, PASSWORD);
                 PreparedStatement st1 = conn.prepareStatement(
                     "DELETE FROM numbers WHERE contact_id = ?");            
                 PreparedStatement st2 = conn.prepareStatement(
@@ -187,7 +188,7 @@ public class ContactManagerImpl implements ContactManager
         Contact contact = new Contact();
         
         try (
-                Connection conn = DriverManager.getConnection(URL, USER, PASSWORD);
+                Connection conn = ds.getConnection();//DriverManager.getConnection(URL, USER, PASSWORD);
                 PreparedStatement st1 = conn.prepareStatement(
                         "SELECT * FROM contact WHERE id = ?");
                 PreparedStatement st2 = conn.prepareStatement(
@@ -236,9 +237,9 @@ public class ContactManagerImpl implements ContactManager
         
         String[] names = name.split(" ", 2);
         try (
-                Connection conn = DriverManager.getConnection(URL, USER, PASSWORD);
+                Connection conn = ds.getConnection();//DriverManager.getConnection(URL, USER, PASSWORD);
                 PreparedStatement st1 = conn.prepareStatement(
-                        "SELECT * FROM contact WHERE firstName = ? AND lastName = ?");
+                        "SELECT * FROM contact WHERE first_name = ? AND last_name = ?");
                 PreparedStatement st2 = conn.prepareStatement(
                         "SELECT * FROM numbers WHERE contact_id = ?");
                 )
@@ -279,7 +280,7 @@ public class ContactManagerImpl implements ContactManager
     {
         List<Contact> list = new ArrayList();
         try (
-                Connection conn = DriverManager.getConnection(URL, USER, PASSWORD);
+                Connection conn = ds.getConnection();//DriverManager.getConnection(URL, USER, PASSWORD);
                 PreparedStatement st1 = conn.prepareStatement(
                         "SELECT * FROM contact");
                 PreparedStatement st2 = conn.prepareStatement(
