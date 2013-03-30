@@ -8,6 +8,8 @@ import org.junit.Test;
 import java.util.Comparator;
 import java.util.Map;
 import java.util.TreeMap;
+import javax.sql.DataSource;
+import org.apache.commons.dbcp.BasicDataSource;
 
 import static org.junit.Assert.*;
 
@@ -20,10 +22,16 @@ public class ContactManagerImplTest
 {
     
     private ContactManagerImpl manager;
+    private DataSource ds;
     
     @Before
     public void setUp() {
-        manager = new ContactManagerImpl();
+        BasicDataSource bds = new BasicDataSource();
+        bds.setUrl("jdbc:derby://localhost:1527/skuska");
+        bds.setUsername("martin");
+        bds.setPassword("password");
+        ds = bds;
+        manager = new ContactManagerImpl(ds);
     }
     
     /**
