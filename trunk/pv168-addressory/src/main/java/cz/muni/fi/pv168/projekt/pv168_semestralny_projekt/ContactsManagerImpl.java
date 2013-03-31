@@ -45,19 +45,47 @@ public class ContactsManagerImpl implements ContactsManager
             throw new IllegalArgumentException("group not in db");
         }
         
-        try (
-                Connection conn = ds.getConnection();
-                PreparedStatement st = conn.prepareStatement(
-                        "INSERT INTO entry (contact_id, group_id) VALUES (?, ?)");
-                )
+        Connection conn = null;
+        
+        try
         {
-            st.setLong(1, contact.getId());
-            st.setLong(2, group.getId());
-            int count = st.executeUpdate();
-            assert count == 1;
+            conn = ds.getConnection();
+            try (
+                    PreparedStatement st = conn.prepareStatement(
+                            "INSERT INTO entry (contact_id, group_id) VALUES (?, ?)");
+                    )
+            {
+                conn.setAutoCommit(false);
+                st.setLong(1, contact.getId());
+                st.setLong(2, group.getId());
+                int count = st.executeUpdate();
+                assert count == 1;
+                conn.commit();
+                conn.setAutoCommit(true);
+            } catch (SQLException e)
+            {
+                conn.rollback();
+                conn.setAutoCommit(true);
+                LOGGER.log(Level.SEVERE, "Error when inserting entry into DB", e);
+            }
         } catch (SQLException e)
         {
-            LOGGER.log(Level.SEVERE, "Error when inserting entry into DB", e);
+            String msg = "Error when setting connection";
+            LOGGER.log(Level.SEVERE, msg, e);
+            throw new RuntimeException(msg, e);
+        } finally
+        {
+            if (conn != null)
+            {
+                try
+                {
+                    conn.close();
+                } catch (SQLException ex)
+                {
+                    LOGGER.log(Level.SEVERE, "Error when closing connection", ex);
+                    throw new RuntimeException("Error when closing connection", ex);
+                }
+            }
         }
         
         
@@ -83,19 +111,48 @@ public class ContactsManagerImpl implements ContactsManager
             throw new IllegalArgumentException("group not in db");
         }
         
-        try (
-                Connection conn = ds.getConnection();
-                PreparedStatement st = conn.prepareStatement(
-                        "DELETE FROM entry WHERE contact_id = ? AND group_id = ?");
-                )
+        Connection conn = null;
+        
+        try
         {
-            st.setLong(1, contact.getId());
-            st.setLong(2, group.getId());
-            int count = st.executeUpdate();
-            assert count <= 1;
+            conn = ds.getConnection();
+            
+            try (
+                    PreparedStatement st = conn.prepareStatement(
+                            "DELETE FROM entry WHERE contact_id = ? AND group_id = ?");
+                    )
+            {
+                conn.setAutoCommit(false);
+                st.setLong(1, contact.getId());
+                st.setLong(2, group.getId());
+                int count = st.executeUpdate();
+                assert count <= 1;
+                conn.commit();
+                conn.setAutoCommit(true);
+            } catch (SQLException e)
+            {
+                conn.rollback();
+                conn.setAutoCommit(true);
+                LOGGER.log(Level.SEVERE, "Error when deleting entry from DB", e);
+            }
         } catch (SQLException e)
         {
-            LOGGER.log(Level.SEVERE, "Error when deleting entry from DB", e);
+            String msg = "Error when setting connection";
+            LOGGER.log(Level.SEVERE, msg, e);
+            throw new RuntimeException(msg, e);
+        } finally
+        {
+            if (conn != null)
+            {
+                try
+                {
+                    conn.close();
+                } catch (SQLException ex)
+                {
+                    LOGGER.log(Level.SEVERE, "Error when closing connection", ex);
+                    throw new RuntimeException("Error when closing connection", ex);
+                }
+            }
         }
     }
 
