@@ -67,6 +67,7 @@ public class ContactsManagerImpl implements ContactsManager
                 conn.rollback();
                 conn.setAutoCommit(true);
                 LOGGER.log(Level.SEVERE, "Error when inserting entry into DB", e);
+                throw new RuntimeException("Error wtf?", e);
             }
         } catch (SQLException e)
         {
@@ -171,7 +172,7 @@ public class ContactsManagerImpl implements ContactsManager
                 PreparedStatement st1 = conn.prepareStatement(
                         "SELECT group_id FROM entry WHERE contact_id = ?");
                 PreparedStatement st2 = conn.prepareStatement(
-                        "SELECT * FROM group WHERE group_id = ?");
+                        "SELECT * FROM groups WHERE id = ?");
                 )
         {
             st1.setLong(1, contact.getId());

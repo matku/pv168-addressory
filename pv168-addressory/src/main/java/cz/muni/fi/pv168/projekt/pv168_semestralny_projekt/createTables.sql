@@ -20,4 +20,4 @@ CREATE TABLE entry
 group_id INTEGER,
 PRIMARY KEY (contact_id, group_id),
 FOREIGN KEY (contact_id) REFERENCES contact(id),
-FOREIGN KEY (group_id) REFERENCES contact(id));
+FOREIGN KEY (group_id) REFERENCES groups(id));
