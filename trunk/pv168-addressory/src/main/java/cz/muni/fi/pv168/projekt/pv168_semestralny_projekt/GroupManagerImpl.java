@@ -43,32 +43,53 @@ public class GroupManagerImpl implements GroupManager {
             throw new IllegalArgumentException("group is already in the database");
         }
         validateGroup(group);
+        Connection conn = null;
 
-        try (
-                Connection conn = ds.getConnection();
-                PreparedStatement st1 = conn.prepareStatement(
-                "INSERT INTO groups (type, note) VALUES (?, ?)",
-                Statement.RETURN_GENERATED_KEYS);) {
-            //st1.setLong(1, group.getId());
-            st1.setString(1, group.getType().name());
-            st1.setString(2, group.getNote());
-            int count = st1.executeUpdate();
-            assert count == 1;              //other than 1 line was created
+        try {
+            conn = ds.getConnection();
+            try (
+                    PreparedStatement st1 = conn.prepareStatement(
+                    "INSERT INTO groups (type, note) VALUES (?, ?)",
+                    Statement.RETURN_GENERATED_KEYS);) {
 
-            ResultSet keys = st1.getGeneratedKeys();
-            Long id;
-            if (keys.next()) {
-                id = keys.getLong(1);
-                group.setId(id);
-            } else {
-                throw new RuntimeException("did not add to the database properly"
-                        + "or did not return ID");
+                conn.setAutoCommit(false);
+                st1.setString(1, group.getType().name());
+                st1.setString(2, group.getNote());
+                int count = st1.executeUpdate();
+                assert count == 1;
+
+                ResultSet keys = st1.getGeneratedKeys();
+                Long id;
+                if (keys.next()) {
+                    id = keys.getLong(1);
+                    group.setId(id);
+                } else {
+                    throw new RuntimeException("did not add to the database properly"
+                            + "or did not return ID");
+                }
+
+                conn.commit();
+                conn.setAutoCommit(true);
+
+            } catch (SQLException e) {
+                conn.rollback();
+                conn.setAutoCommit(true);
+                LOGGER.log(Level.SEVERE, "Error when inserting group into DB", e);
+                throw new RuntimeException("Error when inserting into DB", e);
             }
-
-
         } catch (SQLException e) {
-            LOGGER.log(Level.SEVERE, "Error when inserting group into DB", e);
-            throw new RuntimeException("Error when inserting into DB", e);
+            String msg = "Error when setting connection";
+            LOGGER.log(Level.SEVERE, msg, e);
+            throw new RuntimeException(msg, e);
+        } finally {
+            if (conn != null) {
+                try {
+                    conn.close();
+                } catch (SQLException ex) {
+                    LOGGER.log(Level.SEVERE, "Error when closing connection", ex);
+                    throw new RuntimeException("Error when closing connection", ex);
+                }
+            }
         }
     }
 
@@ -82,22 +103,46 @@ public class GroupManagerImpl implements GroupManager {
         }
 
         validateGroup(group);
+        Connection conn = null;
 
-        try (
-                Connection conn = ds.getConnection();
-                PreparedStatement st1 = conn.prepareStatement(
-                "UPDATE groups SET type = ?, note = ? WHERE id = ?");) {
-            st1.setString(1, group.getType().name());
-            st1.setString(2, group.getNote());
-            st1.setLong(3, group.getId());
-            int count = st1.executeUpdate();
-            assert count == 1;              //other than 1 line was updated
+        try {
+            conn = ds.getConnection();
 
+            try (
+                    PreparedStatement st1 = conn.prepareStatement(
+                    "UPDATE groups SET type = ?, note = ? WHERE id = ?");) {
 
+                conn.setAutoCommit(false);
+                st1.setString(1, group.getType().name());
+                st1.setString(2, group.getNote());
+                st1.setLong(3, group.getId());
+                int count = st1.executeUpdate();
+                assert count == 1;              //other than 1 line was updated
+                conn.commit();
+                conn.setAutoCommit(true);
+
+            } catch (SQLException e) {
+                conn.rollback();
+                conn.setAutoCommit(true);
+
+                LOGGER.log(Level.SEVERE, "Error when inserting group into DB", e);
+                throw new RuntimeException("Error when inserting into DB", e);
+            }
         } catch (SQLException e) {
-            LOGGER.log(Level.SEVERE, "Error when inserting group into DB", e);
-            throw new RuntimeException("Error when inserting into DB", e);
+            String msg = "Error when setting connection";
+            LOGGER.log(Level.SEVERE, msg, e);
+            throw new RuntimeException(msg, e);
+        } finally {
+            if (conn != null) {
+                try {
+                    conn.close();
+                } catch (SQLException ex) {
+                    LOGGER.log(Level.SEVERE, "Error when closing connection", ex);
+                    throw new RuntimeException("Error when closing connection", ex);
+                }
+            }
         }
+
     }
 
     @Override
@@ -109,17 +154,43 @@ public class GroupManagerImpl implements GroupManager {
             throw new IllegalArgumentException("group not in database");
         }
 
-        try (
-                Connection conn = ds.getConnection();
-                PreparedStatement st1 = conn.prepareStatement(
-                "DELETE FROM groups WHERE id = ?");) {
-            st1.setLong(1, group.getId());
-            int count = st1.executeUpdate();
-            assert count == 1;                  //should delete only one contact
+        Connection conn = null;
+
+        try {
+            conn = ds.getConnection();
+            try (
+                    PreparedStatement st1 = conn.prepareStatement(
+                    "DELETE FROM groups WHERE id = ?");) {
+                conn.setAutoCommit(false);
+                st1.setLong(1, group.getId());
+                int count = st1.executeUpdate();
+                assert count == 1;
+                conn.commit();
+                conn.setAutoCommit(true);
+
+            } catch (SQLException e) {
+
+                conn.rollback();
+                conn.setAutoCommit(true);
+
+                String msg = "Removing group failed.";
+                LOGGER.log(Level.SEVERE, msg, e);
+            }
         } catch (SQLException e) {
-            String msg = "Removing group failed.";
+            String msg = "Error when setting connection";
             LOGGER.log(Level.SEVERE, msg, e);
+            throw new RuntimeException(msg, e);
+        } finally {
+            if (conn != null) {
+                try {
+                    conn.close();
+                } catch (SQLException ex) {
+                    LOGGER.log(Level.SEVERE, "Error when closing connection", ex);
+                    throw new RuntimeException("Error when closing connection", ex);
+                }
+            }
         }
+
     }
 
     @Override
@@ -134,6 +205,8 @@ public class GroupManagerImpl implements GroupManager {
                 Connection conn = ds.getConnection();
                 PreparedStatement st1 = conn.prepareStatement(
                 "SELECT * FROM groups WHERE id = ?");) {
+
+            conn.setAutoCommit(false);
             st1.setLong(1, id);
             ResultSet rs = st1.executeQuery();
             if (rs.next()) {
@@ -156,7 +229,7 @@ public class GroupManagerImpl implements GroupManager {
                 return null;
             }
 
-
+            conn.commit();
             return group;
         } catch (SQLException e) {
             LOGGER.log(Level.SEVERE, "Error when selecting group from DB", e);
@@ -172,15 +245,13 @@ public class GroupManagerImpl implements GroupManager {
 
         Group group = new Group();
 
-
         try (
                 Connection conn = ds.getConnection();
                 PreparedStatement st1 = conn.prepareStatement(
                 "SELECT * FROM groups WHERE type = ?");) {
 
+            conn.setAutoCommit(false);
             st1.setString(1, type.name());
-
-
 
             ResultSet rs = st1.executeQuery();
             if (rs.next()) {
@@ -203,7 +274,7 @@ public class GroupManagerImpl implements GroupManager {
                 return null;
             }
 
-
+            conn.commit();
             return group;
         } catch (SQLException e) {
             LOGGER.log(Level.SEVERE, "Error when selecting group from DB", e);
@@ -218,6 +289,7 @@ public class GroupManagerImpl implements GroupManager {
                 Connection conn = ds.getConnection();
                 PreparedStatement st1 = conn.prepareStatement(
                 "SELECT * FROM groups");) {
+            conn.setAutoCommit(false);
             ResultSet rs = st1.executeQuery();
             while (rs.next()) {
                 Group group = new Group();
@@ -239,14 +311,14 @@ public class GroupManagerImpl implements GroupManager {
                 list.add(group);
             }
 
-
+            conn.commit();
+            return list;
 
         } catch (SQLException e) {
             LOGGER.log(Level.SEVERE, "Error when selecting group from DB", e);
             throw new RuntimeException("Error when selecting from DB", e);
         }
 
-        return list;
     }
 
     private boolean validateGroup(Group group) {
@@ -270,6 +342,5 @@ public class GroupManagerImpl implements GroupManager {
         } catch (SQLException ex) {
             Logger.getLogger(GroupManagerImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
-
     }
 }
