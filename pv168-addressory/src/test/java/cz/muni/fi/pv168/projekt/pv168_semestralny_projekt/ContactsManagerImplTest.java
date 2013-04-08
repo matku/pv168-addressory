@@ -4,6 +4,9 @@
  */
 package cz.muni.fi.pv168.projekt.pv168_semestralny_projekt;
 
+import cz.muni.fi.pv168.projekt.commons.DBUtils;
+
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -30,9 +33,20 @@ public class ContactsManagerImplTest
     private ContactManagerImpl contactManager;
     private ContactsManagerImpl manager;
     private GroupManagerImpl groupManager;
-    private DataSource ds;
+    private static DataSource ds;
     
-    @Before
+    private static DataSource prepareDataSource() throws SQLException 
+    {
+        BasicDataSource bds = new BasicDataSource();
+        //we will use in memory database
+//        bds.setUrl("jdbc:derby:memory:contactmgr-test;create=true");
+        bds.setUrl("jdbc:derby://localhost:1527/skuska");
+        bds.setUsername("martin");
+        bds.setPassword("password");
+        return bds;
+    }
+    
+    /*@Before
     public void setUp() 
     {
         BasicDataSource bds = new BasicDataSource();
@@ -43,11 +57,41 @@ public class ContactsManagerImplTest
         manager = new ContactsManagerImpl(ds);
         contactManager = new ContactManagerImpl(ds);
         groupManager = new GroupManagerImpl(ds);
+    }*/
+    
+//    @BeforeClass
+//    public static void setClassUp() throws SQLException
+//    {
+//        ds = prepareDataSource();
+////        DBUtils.createTables(ds);
+////        DBUtils.executeSqlScript(ds,Addressory.class.getResource("createTables.sql"));
+//    }
+    
+    @Before
+    public void setUp() throws SQLException
+    {
+        ds = prepareDataSource();
+        manager = new ContactsManagerImpl(ds);
+        contactManager = new ContactManagerImpl(ds);
+        groupManager = new GroupManagerImpl(ds);
+        //DBUtils.createTables(ds);
+        DBUtils.executeSqlScript(ds,Addressory.class.getResource("/createTables.sql"));
     }
     
-    /*@After
-    public void tearDown() {
-    }*/
+    @After
+    public void tearDown() throws SQLException 
+    {
+        //DBUtils.deleteTables(ds);
+//        DBUtils.deleteFromTables(ds);
+        DBUtils.executeSqlScript(ds,Addressory.class.getResource("/dropTables.sql"));
+    }
+    
+//    @AfterClass
+//    public static void tearClassDown() throws SQLException
+//    {
+////        DBUtils.deleteTables(ds);
+////        DBUtils.executeSqlScript(ds,Addressory.class.getResource("deleteTables.sql"));
+//    }
     
     /**
      * Test of removeContactFromGroup method, of class ContactsManagerImpl.

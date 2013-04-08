@@ -1,5 +1,10 @@
 package cz.muni.fi.pv168.projekt.pv168_semestralny_projekt;
 
+import cz.muni.fi.pv168.projekt.commons.DBUtils;
+import java.net.MalformedURLException;
+import java.net.URL;
+
+import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -10,8 +15,11 @@ import java.util.Map;
 import java.util.TreeMap;
 import javax.sql.DataSource;
 import org.apache.commons.dbcp.BasicDataSource;
+import org.junit.After;
+import org.junit.AfterClass;
 
 import static org.junit.Assert.*;
+import org.junit.BeforeClass;
 
 
 /**
@@ -22,9 +30,9 @@ public class ContactManagerImplTest
 {
     
     private ContactManagerImpl manager;
-    private DataSource ds;
+    private static DataSource ds;
     
-    @Before
+    /*@Before
     public void setUp() {
         BasicDataSource bds = new BasicDataSource();
         bds.setUrl("jdbc:derby://localhost:1527/skuska");
@@ -32,7 +40,50 @@ public class ContactManagerImplTest
         bds.setPassword("password");
         ds = bds;
         manager = new ContactManagerImpl(ds);
+    }*/
+    
+    private static DataSource prepareDataSource() throws SQLException {
+        BasicDataSource bds = new BasicDataSource();
+        //we will use in memory database
+//        bds.setUrl("jdbc:derby:memory:contactmgr-test;create=true");
+        bds.setUrl("jdbc:derby://localhost:1527/skuska");
+        bds.setUsername("martin");
+        bds.setPassword("password");
+        return bds;
     }
+    
+//    @BeforeClass
+//    public static void setClassUp() throws SQLException
+//    {
+//        ds = prepareDataSource();
+////        DBUtils.createTables(ds);
+////        DBUtils.executeSqlScript(ds,Addressory.class.getResource("createTables.sql"));
+//    }
+    
+    @Before
+    public void setUp() throws SQLException, MalformedURLException {
+        ds = prepareDataSource();
+        DBUtils.executeSqlScript(ds,Addressory.class.getResource("/createTables.sql"));
+        //DBUtils.createTables(ds);
+        manager = new ContactManagerImpl(ds);
+    }
+
+    @After
+    public void tearDown() throws SQLException 
+    {
+        //DBUtils.executeSqlScript(ds,"dropTables.sql");
+        //DBUtils.deleteTables(ds);
+//        DBUtils.deleteFromTables(ds);
+        DBUtils.executeSqlScript(ds,Addressory.class.getResource("/dropTables.sql"));
+    }
+    
+//    @AfterClass
+//    public static void tearClassDown() throws SQLException
+//    {
+////        DBUtils.deleteTables(ds);
+////        DBUtils.executeSqlScript(ds,Addressory.class.getResource("deleteTables.sql"));
+//    }
+    
     
     /**
      * Test of findAllContacts method, of class ContactManagerImpl.
@@ -116,7 +167,7 @@ public class ContactManagerImplTest
      */
     @Test
     public void testFindContactByID() 
-    {        
+    {
         assertNull(manager.findContactByID(1l));
         
         Contact contact = newContact("Matus", "Kralik", "Trybova 3", newNumbers(0));
@@ -128,23 +179,6 @@ public class ContactManagerImplTest
         assertDeepEquals(contact, result);
     }
 
-    /**
-     * Test of findContactByName method, of class ContactManagerImpl.
-     */
-    /*@Test
-    public void testFindContactByName() 
-    {
-        String name = "";
-        ContactManagerImpl instance = new ContactManagerImpl();
-        Contact expResult = null;
-        Contact result = instance.findContactByName(name);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }*/
-
-    
-    
     @Test
     public void addContactWithWrongAttributes()
     {

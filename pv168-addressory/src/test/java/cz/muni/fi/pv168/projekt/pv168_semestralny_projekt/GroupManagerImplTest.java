@@ -4,6 +4,9 @@
  */
 package cz.muni.fi.pv168.projekt.pv168_semestralny_projekt;
 
+import cz.muni.fi.pv168.projekt.commons.DBUtils;
+import java.sql.SQLException;
+
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
@@ -11,8 +14,10 @@ import java.util.List;
 import javax.sql.DataSource;
 import org.apache.commons.dbcp.BasicDataSource;
 import org.junit.After;
+import org.junit.AfterClass;
 import static org.junit.Assert.*;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 /**
@@ -21,23 +26,54 @@ import org.junit.Test;
  */
 public class GroupManagerImplTest {
     private GroupManagerImpl manager;
-    private DataSource ds;
+    private static DataSource ds;
     
-    @Before
-    public void setUp() {
+    private static DataSource prepareDataSource() throws SQLException {
         BasicDataSource bds = new BasicDataSource();
+        //we will use in memory database
+//        bds.setUrl("jdbc:derby:memory:contactmgr-test;create=true");
         bds.setUrl("jdbc:derby://localhost:1527/skuska");
         bds.setUsername("martin");
         bds.setPassword("password");
-        ds = bds;
+        return bds;
+    }
+    
+//    @BeforeClass
+//    public static void setClassUp() throws SQLException
+//    {
+//        ds = prepareDataSource();
+////        DBUtils.createTables(ds);
+////        DBUtils.executeSqlScript(ds,Addressory.class.getResource("createTables.sql"));
+//    }
+    
+    @Before
+    public void setUp() throws SQLException {
+        /*BasicDataSource bds = new BasicDataSource();
+        bds.setUrl("jdbc:derby://localhost:1527/skuska");
+        bds.setUsername("martin");
+        bds.setPassword("password");
+        ds = bds;*/
+        ds = prepareDataSource();
         manager = new GroupManagerImpl(ds);
-        manager.deleteAllGroups();
+        //DBUtils.createTables(ds);
+        //manager.deleteAllGroups();
+        DBUtils.executeSqlScript(ds,Addressory.class.getResource("/createTables.sql"));
+        
     }
     
     @After
-    public void tearDown() {
-        manager.deleteAllGroups();
+    public void tearDown() throws SQLException {
+        DBUtils.deleteFromTables(ds);
+        //manager.deleteAllGroups();
+        DBUtils.executeSqlScript(ds,Addressory.class.getResource("/dropTables.sql"));
     }
+    
+//    @AfterClass
+//    public static void tearClassDown() throws SQLException
+//    {
+////        DBUtils.deleteTables(ds);
+////        DBUtils.executeSqlScript(ds,Addressory.class.getResource("deleteTables.sql"));
+//    }
     
     @Test
     public void testFindAllGroups() 
