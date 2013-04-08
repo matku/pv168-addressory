@@ -1,3 +1,4 @@
+
 CREATE TABLE contact (
 id INTEGER NOT NULL PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
 first_name VARCHAR(20),
@@ -21,3 +22,4 @@ group_id INTEGER,
 PRIMARY KEY (contact_id, group_id),
 FOREIGN KEY (contact_id) REFERENCES contact(id),
 FOREIGN KEY (group_id) REFERENCES groups(id));
+

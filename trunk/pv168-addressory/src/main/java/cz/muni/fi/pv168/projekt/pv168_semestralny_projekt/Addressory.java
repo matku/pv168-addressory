@@ -19,18 +19,20 @@ public class Addressory
     
     public static void main(String[] args) 
     {
-        BasicDataSource bds = new BasicDataSource();
-        bds.setUrl("jdbc:derby://localhost:1527/skuska");
-        bds.setUsername("martin");
-        bds.setPassword("password");
-        ds = bds;
-        ContactManagerImpl mngr = new ContactManagerImpl(ds);
-        /*Contact cont = mngr.findContactByID(110l);
-        if (cont != null) 
-        {
-            System.out.println(cont.toString());
-        }*/
-        
+//        System.out.println("tabulky sa snad nachadzaju: ");
+//        System.out.println(Addressory.class.getResource("/createTables.sql").toString());
+//        BasicDataSource bds = new BasicDataSource();
+//        bds.setUrl("jdbc:derby://localhost:1527/skuska");
+//        bds.setUsername("martin");
+//        bds.setPassword("password");
+//        ds = bds;
+//        ContactManagerImpl mngr = new ContactManagerImpl(ds);
+//        /*Contact cont = mngr.findContactByID(110l);
+//        if (cont != null) 
+//        {
+//            System.out.println(cont.toString());
+//        }*/
+//        
     }
     
 }
