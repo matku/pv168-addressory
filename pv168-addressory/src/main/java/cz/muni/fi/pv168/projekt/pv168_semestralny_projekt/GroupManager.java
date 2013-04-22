@@ -8,10 +8,10 @@ import java.util.List;
  */
 public interface GroupManager 
 {
-    void newGroup(Group group);
-    void editGroup(Group group);
-    void deleteGroup(Group group);
-    Group findGroupByID(Long id);
-    Group findGroupByType(GroupType type);
-    List<Group> findAllGroups();
+    void newGroup(Group group) throws AppException;
+    void editGroup(Group group) throws AppException;
+    void deleteGroup(Group group) throws AppException;
+    Group findGroupByID(Long id) throws AppException;
+    Group findGroupByType(GroupType type) throws AppException;
+    List<Group> findAllGroups() throws AppException;
 }

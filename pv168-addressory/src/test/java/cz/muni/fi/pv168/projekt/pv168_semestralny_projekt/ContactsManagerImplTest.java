@@ -97,7 +97,7 @@ public class ContactsManagerImplTest
      * Test of removeContactFromGroup method, of class ContactsManagerImpl.
      */
     @Test
-    public void testRemoveContactFromGroup() 
+    public void testRemoveContactFromGroup() throws AppException 
     {
         Group group = newGroup(GroupType.FRIENDS, "Priatelia");
         groupManager.newGroup(group);
@@ -113,7 +113,7 @@ public class ContactsManagerImplTest
      * Test of findGroupWithContact method, of class ContactsManagerImpl.
      */
     @Test
-    public void testFindGroupWithContact() {
+    public void testFindGroupWithContact() throws AppException {
         Group group = newGroup(GroupType.FRIENDS, "Priatelia");
         groupManager.newGroup(group);
         Contact contact = newContact("Matus", "Kralik", "Trybova 3", newNumbers(0));
@@ -127,7 +127,7 @@ public class ContactsManagerImplTest
      * Test of findAllContactsInGroup method, of class ContactsManagerImpl.
      */
     @Test
-    public void testFindAllContactsInGroup() 
+    public void testFindAllContactsInGroup() throws AppException 
     {
         Group group = newGroup(GroupType.FRIENDS, "Priatelia");
         groupManager.newGroup(group);
@@ -152,7 +152,7 @@ public class ContactsManagerImplTest
      * Test of addContactToGroup method, of class ContactsManagerImpl.
      */
     @Test
-    public void testAddContactToGroup() 
+    public void testAddContactToGroup() throws AppException 
     {
         Group group = newGroup(GroupType.FRIENDS, "Priatelia");
         groupManager.newGroup(group);

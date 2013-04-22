@@ -76,7 +76,7 @@ public class GroupManagerImplTest {
 //    }
     
     @Test
-    public void testFindAllGroups() 
+    public void testFindAllGroups() throws AppException 
     {
         
 
@@ -100,7 +100,7 @@ public class GroupManagerImplTest {
      *
      */
     @Test
-    public void testNewGroup() 
+    public void testNewGroup() throws AppException 
     {
         Group group = newGroup(GroupType.FRIENDS, "Priatelia");
         manager.newGroup(group);
@@ -114,7 +114,7 @@ public class GroupManagerImplTest {
     }
     
     @Test
-    public void testEditGroup() 
+    public void testEditGroup() throws AppException 
     {   
         
         Group group = newGroup(GroupType.OTHERS, "Ostatni");
@@ -137,7 +137,7 @@ public class GroupManagerImplTest {
      *
      */
     @Test
-    public void testDeleteGroup() 
+    public void testDeleteGroup() throws AppException 
     {
        
         Group group = newGroup(GroupType.OTHERS, "Ostatni");
@@ -151,7 +151,7 @@ public class GroupManagerImplTest {
     }
     
     @Test
-    public void testFindGroupByID() 
+    public void testFindGroupByID() throws AppException 
     {        
         
         
@@ -165,7 +165,7 @@ public class GroupManagerImplTest {
     }
     
     @Test
-    public void testFindGroupByType() 
+    public void testFindGroupByType() throws AppException 
     {     
  
         Group group = newGroup(GroupType.OTHERS,"Ostatni");
@@ -176,12 +176,14 @@ public class GroupManagerImplTest {
     }
     
     @Test
-    public void addGroupWithWrongAttributes()
+    public void addGroupWithWrongAttributes() throws AppException
     {
         try {
             manager.newGroup(null);
             fail();
-        } catch (IllegalArgumentException ex) {
+        } catch (AppException ex) {
+            //OK
+        } catch (IllegalArgumentException e) {
             //OK
         }
         
@@ -191,7 +193,9 @@ public class GroupManagerImplTest {
         try {
             manager.newGroup(group);
             fail();
-        } catch (IllegalArgumentException ex) {
+        } catch (AppException ex) {
+            //OK
+        } catch (IllegalArgumentException e) {
             //OK
         }
         
@@ -199,8 +203,8 @@ public class GroupManagerImplTest {
         try {
             manager.newGroup(group);
             fail();
-        } catch (IllegalArgumentException ex) {
-            //OK
+        } catch (AppException | IllegalArgumentException ex) {
+            int foo = 5;//OK
         }
         
 

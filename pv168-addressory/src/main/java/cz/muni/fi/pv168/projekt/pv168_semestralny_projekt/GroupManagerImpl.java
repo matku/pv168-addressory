@@ -35,7 +35,8 @@ public class GroupManagerImpl implements GroupManager {
     }
 
     @Override
-    public void newGroup(Group group) {
+    public void newGroup(Group group) throws AppException
+    {
         if (group == null) {
             throw new IllegalArgumentException("group must not be null");
         }
@@ -75,26 +76,27 @@ public class GroupManagerImpl implements GroupManager {
                 conn.rollback();
                 conn.setAutoCommit(true);
                 LOGGER.log(Level.SEVERE, "Error when inserting group into DB", e);
-                throw new RuntimeException("Error when inserting into DB", e);
+                throw new AppException("Error when inserting into DB", e);
             }
         } catch (SQLException e) {
             String msg = "Error when setting connection";
             LOGGER.log(Level.SEVERE, msg, e);
-            throw new RuntimeException(msg, e);
+            throw new AppException(msg, e);
         } finally {
             if (conn != null) {
                 try {
                     conn.close();
                 } catch (SQLException ex) {
                     LOGGER.log(Level.SEVERE, "Error when closing connection", ex);
-                    throw new RuntimeException("Error when closing connection", ex);
+                    throw new AppException("Error when closing connection", ex);
                 }
             }
         }
     }
 
     @Override
-    public void editGroup(Group group) {
+    public void editGroup(Group group) throws AppException
+    {
         if (group == null) {
             throw new IllegalArgumentException("group must not be null");
         }
@@ -126,19 +128,19 @@ public class GroupManagerImpl implements GroupManager {
                 conn.setAutoCommit(true);
 
                 LOGGER.log(Level.SEVERE, "Error when inserting group into DB", e);
-                throw new RuntimeException("Error when inserting into DB", e);
+                throw new AppException("Error when inserting into DB", e);
             }
         } catch (SQLException e) {
             String msg = "Error when setting connection";
             LOGGER.log(Level.SEVERE, msg, e);
-            throw new RuntimeException(msg, e);
+            throw new AppException(msg, e);
         } finally {
             if (conn != null) {
                 try {
                     conn.close();
                 } catch (SQLException ex) {
                     LOGGER.log(Level.SEVERE, "Error when closing connection", ex);
-                    throw new RuntimeException("Error when closing connection", ex);
+                    throw new AppException("Error when closing connection", ex);
                 }
             }
         }
@@ -146,7 +148,8 @@ public class GroupManagerImpl implements GroupManager {
     }
 
     @Override
-    public void deleteGroup(Group group) {
+    public void deleteGroup(Group group) throws AppException
+    {
         if (group == null) {
             throw new IllegalArgumentException("group must not be null");
         }
@@ -175,18 +178,19 @@ public class GroupManagerImpl implements GroupManager {
 
                 String msg = "Removing group failed.";
                 LOGGER.log(Level.SEVERE, msg, e);
+                throw new AppException(msg, e);
             }
         } catch (SQLException e) {
             String msg = "Error when setting connection";
             LOGGER.log(Level.SEVERE, msg, e);
-            throw new RuntimeException(msg, e);
+            throw new AppException(msg, e);
         } finally {
             if (conn != null) {
                 try {
                     conn.close();
                 } catch (SQLException ex) {
                     LOGGER.log(Level.SEVERE, "Error when closing connection", ex);
-                    throw new RuntimeException("Error when closing connection", ex);
+                    throw new AppException("Error when closing connection", ex);
                 }
             }
         }
@@ -194,7 +198,8 @@ public class GroupManagerImpl implements GroupManager {
     }
 
     @Override
-    public Group findGroupByID(Long id) {
+    public Group findGroupByID(Long id) throws AppException
+    {
         if (id == null) {
             throw new IllegalArgumentException("id must be initialized and greater then 0");
         }
@@ -233,12 +238,13 @@ public class GroupManagerImpl implements GroupManager {
             return group;
         } catch (SQLException e) {
             LOGGER.log(Level.SEVERE, "Error when selecting group from DB", e);
-            throw new RuntimeException("Error when selecting from DB", e);
+            throw new AppException("Error when selecting from DB", e);
         }
     }
 
     @Override
-    public Group findGroupByType(GroupType type) {
+    public Group findGroupByType(GroupType type) throws AppException
+    {
         if (type == null) {
             throw new IllegalArgumentException("type must not be null or empty string");
         }
@@ -278,12 +284,13 @@ public class GroupManagerImpl implements GroupManager {
             return group;
         } catch (SQLException e) {
             LOGGER.log(Level.SEVERE, "Error when selecting group from DB", e);
-            throw new RuntimeException("Error when selecting from DB", e);
+            throw new AppException("Error when selecting from DB", e);
         }
     }
 
     @Override
-    public List<Group> findAllGroups() {
+    public List<Group> findAllGroups() throws AppException
+    {
         List<Group> list = new ArrayList();
         try (
                 Connection conn = ds.getConnection();
@@ -316,20 +323,21 @@ public class GroupManagerImpl implements GroupManager {
 
         } catch (SQLException e) {
             LOGGER.log(Level.SEVERE, "Error when selecting group from DB", e);
-            throw new RuntimeException("Error when selecting from DB", e);
+            throw new AppException("Error when selecting from DB", e);
         }
 
     }
 
-    private boolean validateGroup(Group group) {
+    private boolean validateGroup(Group group) throws AppException {
         if (group.getType() == null) {
-            throw new IllegalArgumentException("group must not be null");
+            throw new AppException("group must not be null");
         }
 
         return true;
     }
 
-    public void deleteAllGroups() {
+    public void deleteAllGroups() 
+    {
 
         try {
             Connection conn = ds.getConnection();
