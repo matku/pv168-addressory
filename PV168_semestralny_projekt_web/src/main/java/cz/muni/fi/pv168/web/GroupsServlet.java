@@ -44,23 +44,23 @@ public class GroupsServlet extends HttpServlet
     {
         setConnectionAndManager();
         request.setCharacterEncoding("utf-8");
-        //akce podle přípony v URL
+        //action acording to URL
         String action = request.getPathInfo();
         switch (action) {
             case "/add":
-                //načtení POST parametrů z formuláře
+                //get POST params from form
                 String type = request.getParameter("type");
                 String note = request.getParameter("note");
-                //kontrola vyplnění hodnot
+                //checking of required attributes
                 if (type == null || type.length() == 0) {
                     request.setAttribute("chyba", "Je nutné vyplnit typ !");
                     showGroupsList(request, response);
                     return;
                 }
-                //zpracování dat - vytvoření záznamu v databázi
                 try {
                     Group group = new Group();
                     group.setNote(note);
+                    //validating type attribute against list of valid types
                     try
                     {
                         group.setType(Enum.valueOf(GroupType.class, type));
@@ -73,7 +73,6 @@ public class GroupsServlet extends HttpServlet
                     }
                     groupManager.newGroup(group);
                     log.debug("created {}",group);
-                    //redirect-after-POST je ochrana před vícenásobným odesláním formuláře
                     response.sendRedirect(request.getContextPath()+URL_MAPPING);
                     return;
                 } catch (AppException e) 
@@ -94,24 +93,20 @@ public class GroupsServlet extends HttpServlet
                     response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, e.getMessage());
                     return;
                 }
-            case "/update":
+            /*case "/update":
                 //TODO
-                return;
+                return;*/
             default:
                 log.error("Unknown action " + action);
                 response.sendError(HttpServletResponse.SC_NOT_FOUND, "Unknown action " + action);
         }
     }
 
-    /*private GroupManager getGroupManager() {
-        return (GroupManager) getServletContext().getAttribute("groupManager");
-    }*/
-
     private void showGroupsList(HttpServletRequest request, HttpServletResponse response) 
             throws ServletException, IOException 
     {
         try {
-            request.setAttribute("groups", groupManager.findAllGroups());//getGroupManager().findAllGroups());
+            request.setAttribute("groups", groupManager.findAllGroups());
             request.getRequestDispatcher(LIST_JSP).forward(request, response);
         } catch (AppException e) {
             log.error("Cannot show groups", e);
