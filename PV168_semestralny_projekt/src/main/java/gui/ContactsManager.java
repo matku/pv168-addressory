@@ -27,21 +27,21 @@ public class ContactsManager extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jFrameNewEditGroup = new javax.swing.JFrame();
+        jDialogGroup = new javax.swing.JDialog();
         jLabelNewEditGroup = new javax.swing.JLabel();
         jLabelGroupType = new javax.swing.JLabel();
         jComboBoxGroupType = new javax.swing.JComboBox();
         jLabelGroupNote = new javax.swing.JLabel();
         jTextFieldGroupNote = new javax.swing.JTextField();
-        jButtonGroupOK = new javax.swing.JButton();
         jButtonGroupCancel = new javax.swing.JButton();
-        jFrameDeleteGroup = new javax.swing.JFrame();
+        jButtonGroupOK = new javax.swing.JButton();
+        jDialogDeleteGroup = new javax.swing.JDialog();
         jLabelDeleteGroup = new javax.swing.JLabel();
         jLabelDeleteGroupType = new javax.swing.JLabel();
         jComboBoxDeleteGroup = new javax.swing.JComboBox();
         jButtonDeleteGroupOK = new javax.swing.JButton();
         jButtonDeleteGroupCancel = new javax.swing.JButton();
-        jFrameContact = new javax.swing.JFrame();
+        jDialogContact = new javax.swing.JDialog();
         jLabelEditContact = new javax.swing.JLabel();
         jLabelName = new javax.swing.JLabel();
         jLabelSurname = new javax.swing.JLabel();
@@ -56,7 +56,7 @@ public class ContactsManager extends javax.swing.JFrame {
         jCheckBoxWork = new javax.swing.JCheckBox();
         jCheckBoxOther = new javax.swing.JCheckBox();
         jLabelNumbers = new javax.swing.JLabel();
-        jPanel3 = new javax.swing.JPanel();
+        jPanelNumbers = new javax.swing.JPanel();
         jComboBoxNumbers1 = new javax.swing.JComboBox();
         jComboBoxNumbers2 = new javax.swing.JComboBox();
         jComboBoxNumbers3 = new javax.swing.JComboBox();
@@ -98,6 +98,14 @@ public class ContactsManager extends javax.swing.JFrame {
 
         jLabelGroupNote.setText("Note:");
 
+        jTextFieldGroupNote.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextFieldGroupNoteActionPerformed(evt);
+            }
+        });
+
+        jButtonGroupCancel.setText("Cancel");
+
         jButtonGroupOK.setText("OK");
         jButtonGroupOK.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -105,54 +113,53 @@ public class ContactsManager extends javax.swing.JFrame {
             }
         });
 
-        jButtonGroupCancel.setText("Cancel");
-
-        javax.swing.GroupLayout jFrameNewEditGroupLayout = new javax.swing.GroupLayout(jFrameNewEditGroup.getContentPane());
-        jFrameNewEditGroup.getContentPane().setLayout(jFrameNewEditGroupLayout);
-        jFrameNewEditGroupLayout.setHorizontalGroup(
-            jFrameNewEditGroupLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jFrameNewEditGroupLayout.createSequentialGroup()
-                .addGroup(jFrameNewEditGroupLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jFrameNewEditGroupLayout.createSequentialGroup()
-                        .addGroup(jFrameNewEditGroupLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jFrameNewEditGroupLayout.createSequentialGroup()
-                                .addGap(158, 158, 158)
-                                .addComponent(jLabelNewEditGroup))
-                            .addGroup(jFrameNewEditGroupLayout.createSequentialGroup()
-                                .addGap(54, 54, 54)
-                                .addGroup(jFrameNewEditGroupLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabelGroupType)
-                                    .addComponent(jLabelGroupNote))
-                                .addGap(38, 38, 38)
-                                .addGroup(jFrameNewEditGroupLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(jComboBoxGroupType, 0, 194, Short.MAX_VALUE)
-                                    .addComponent(jTextFieldGroupNote))))
-                        .addGap(0, 68, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jFrameNewEditGroupLayout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jButtonGroupCancel)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButtonGroupOK)))
-                .addContainerGap())
-        );
-        jFrameNewEditGroupLayout.setVerticalGroup(
-            jFrameNewEditGroupLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jFrameNewEditGroupLayout.createSequentialGroup()
-                .addGap(26, 26, 26)
+        javax.swing.GroupLayout jDialogGroupLayout = new javax.swing.GroupLayout(jDialogGroup.getContentPane());
+        jDialogGroup.getContentPane().setLayout(jDialogGroupLayout);
+        jDialogGroupLayout.setHorizontalGroup(
+            jDialogGroupLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jDialogGroupLayout.createSequentialGroup()
+                .addGap(151, 151, 151)
                 .addComponent(jLabelNewEditGroup)
-                .addGap(21, 21, 21)
-                .addGroup(jFrameNewEditGroupLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabelGroupType)
-                    .addComponent(jComboBoxGroupType, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(24, 24, 24)
-                .addGroup(jFrameNewEditGroupLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabelGroupNote)
-                    .addComponent(jTextFieldGroupNote, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 44, Short.MAX_VALUE)
-                .addGroup(jFrameNewEditGroupLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButtonGroupOK)
-                    .addComponent(jButtonGroupCancel))
+                .addContainerGap(165, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jDialogGroupLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jButtonGroupCancel)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jButtonGroupOK)
+                .addGap(22, 22, 22))
+            .addGroup(jDialogGroupLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jDialogGroupLayout.createSequentialGroup()
+                    .addGap(30, 30, 30)
+                    .addGroup(jDialogGroupLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jLabelGroupType)
+                        .addComponent(jLabelGroupNote))
+                    .addGap(38, 38, 38)
+                    .addGroup(jDialogGroupLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(jComboBoxGroupType, 0, 194, Short.MAX_VALUE)
+                        .addComponent(jTextFieldGroupNote))
+                    .addContainerGap(99, Short.MAX_VALUE)))
+        );
+        jDialogGroupLayout.setVerticalGroup(
+            jDialogGroupLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jDialogGroupLayout.createSequentialGroup()
+                .addGap(25, 25, 25)
+                .addComponent(jLabelNewEditGroup)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 166, Short.MAX_VALUE)
+                .addGroup(jDialogGroupLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButtonGroupCancel)
+                    .addComponent(jButtonGroupOK))
                 .addContainerGap())
+            .addGroup(jDialogGroupLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jDialogGroupLayout.createSequentialGroup()
+                    .addGap(73, 73, 73)
+                    .addGroup(jDialogGroupLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabelGroupType)
+                        .addComponent(jComboBoxGroupType, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGap(24, 24, 24)
+                    .addGroup(jDialogGroupLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabelGroupNote)
+                        .addComponent(jTextFieldGroupNote, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addContainerGap(109, Short.MAX_VALUE)))
         );
 
         jLabelDeleteGroup.setFont(new java.awt.Font("Ubuntu", 1, 24)); // NOI18N
@@ -176,41 +183,41 @@ public class ContactsManager extends javax.swing.JFrame {
             }
         });
 
-        javax.swing.GroupLayout jFrameDeleteGroupLayout = new javax.swing.GroupLayout(jFrameDeleteGroup.getContentPane());
-        jFrameDeleteGroup.getContentPane().setLayout(jFrameDeleteGroupLayout);
-        jFrameDeleteGroupLayout.setHorizontalGroup(
-            jFrameDeleteGroupLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jFrameDeleteGroupLayout.createSequentialGroup()
-                .addGroup(jFrameDeleteGroupLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jFrameDeleteGroupLayout.createSequentialGroup()
-                        .addGroup(jFrameDeleteGroupLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(jFrameDeleteGroupLayout.createSequentialGroup()
+        javax.swing.GroupLayout jDialogDeleteGroupLayout = new javax.swing.GroupLayout(jDialogDeleteGroup.getContentPane());
+        jDialogDeleteGroup.getContentPane().setLayout(jDialogDeleteGroupLayout);
+        jDialogDeleteGroupLayout.setHorizontalGroup(
+            jDialogDeleteGroupLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jDialogDeleteGroupLayout.createSequentialGroup()
+                .addGroup(jDialogDeleteGroupLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jDialogDeleteGroupLayout.createSequentialGroup()
+                        .addGroup(jDialogDeleteGroupLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(jDialogDeleteGroupLayout.createSequentialGroup()
                                 .addGap(108, 108, 108)
                                 .addComponent(jLabelDeleteGroup))
-                            .addGroup(jFrameDeleteGroupLayout.createSequentialGroup()
+                            .addGroup(jDialogDeleteGroupLayout.createSequentialGroup()
                                 .addGap(42, 42, 42)
                                 .addComponent(jLabelDeleteGroupType)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(jComboBoxDeleteGroup, javax.swing.GroupLayout.PREFERRED_SIZE, 174, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(0, 88, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jFrameDeleteGroupLayout.createSequentialGroup()
+                        .addGap(0, 72, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jDialogDeleteGroupLayout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(jButtonDeleteGroupCancel)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButtonDeleteGroupOK)))
                 .addContainerGap())
         );
-        jFrameDeleteGroupLayout.setVerticalGroup(
-            jFrameDeleteGroupLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jFrameDeleteGroupLayout.createSequentialGroup()
+        jDialogDeleteGroupLayout.setVerticalGroup(
+            jDialogDeleteGroupLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jDialogDeleteGroupLayout.createSequentialGroup()
                 .addGap(25, 25, 25)
                 .addComponent(jLabelDeleteGroup)
                 .addGap(32, 32, 32)
-                .addGroup(jFrameDeleteGroupLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(jDialogDeleteGroupLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabelDeleteGroupType)
                     .addComponent(jComboBoxDeleteGroup, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 46, Short.MAX_VALUE)
-                .addGroup(jFrameDeleteGroupLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 20, Short.MAX_VALUE)
+                .addGroup(jDialogDeleteGroupLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButtonDeleteGroupOK)
                     .addComponent(jButtonDeleteGroupCancel))
                 .addContainerGap())
@@ -278,8 +285,8 @@ public class ContactsManager extends javax.swing.JFrame {
 
         jLabelNumbers.setText("Numbers:");
 
-        jPanel3.setBackground(new java.awt.Color(254, 254, 254));
-        jPanel3.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        jPanelNumbers.setBackground(new java.awt.Color(254, 254, 254));
+        jPanelNumbers.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
         jComboBoxNumbers1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
@@ -291,20 +298,20 @@ public class ContactsManager extends javax.swing.JFrame {
 
         jComboBoxNumbers5.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
-        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
-        jPanel3.setLayout(jPanel3Layout);
-        jPanel3Layout.setHorizontalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
+        javax.swing.GroupLayout jPanelNumbersLayout = new javax.swing.GroupLayout(jPanelNumbers);
+        jPanelNumbers.setLayout(jPanelNumbersLayout);
+        jPanelNumbersLayout.setHorizontalGroup(
+            jPanelNumbersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelNumbersLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(jPanelNumbersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jComboBoxNumbers5, 0, 110, Short.MAX_VALUE)
                     .addComponent(jComboBoxNumbers4, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jComboBoxNumbers3, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jComboBoxNumbers2, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jComboBoxNumbers1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanelNumbersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jTextFieldNumbers1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 261, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jTextFieldNumbers2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 261, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jTextFieldNumbers3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 261, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -312,27 +319,27 @@ public class ContactsManager extends javax.swing.JFrame {
                     .addComponent(jTextFieldNumbers5, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 261, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
-        jPanel3Layout.setVerticalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
+        jPanelNumbersLayout.setVerticalGroup(
+            jPanelNumbersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelNumbersLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(jPanelNumbersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jComboBoxNumbers1, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jTextFieldNumbers1, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(jPanelNumbersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jComboBoxNumbers2, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jTextFieldNumbers2, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(jPanelNumbersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jComboBoxNumbers3, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jTextFieldNumbers3, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(jPanelNumbersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jComboBoxNumbers4, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jTextFieldNumbers4, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(jPanelNumbersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jComboBoxNumbers5)
                     .addComponent(jTextFieldNumbers5, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
@@ -352,75 +359,74 @@ public class ContactsManager extends javax.swing.JFrame {
             }
         });
 
-        javax.swing.GroupLayout jFrameContactLayout = new javax.swing.GroupLayout(jFrameContact.getContentPane());
-        jFrameContact.getContentPane().setLayout(jFrameContactLayout);
-        jFrameContactLayout.setHorizontalGroup(
-            jFrameContactLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jFrameContactLayout.createSequentialGroup()
-                .addGroup(jFrameContactLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(jFrameContactLayout.createSequentialGroup()
+        javax.swing.GroupLayout jDialogContactLayout = new javax.swing.GroupLayout(jDialogContact.getContentPane());
+        jDialogContact.getContentPane().setLayout(jDialogContactLayout);
+        jDialogContactLayout.setHorizontalGroup(
+            jDialogContactLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jDialogContactLayout.createSequentialGroup()
+                .addGroup(jDialogContactLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jDialogContactLayout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(jButtonContactCancel)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButtonContactOK))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jFrameContactLayout.createSequentialGroup()
-                        .addGap(198, 198, 198)
-                        .addComponent(jLabelEditContact)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jFrameContactLayout.createSequentialGroup()
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jDialogContactLayout.createSequentialGroup()
                         .addGap(33, 33, 33)
-                        .addGroup(jFrameContactLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(jFrameContactLayout.createSequentialGroup()
-                                .addGroup(jFrameContactLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jFrameContactLayout.createSequentialGroup()
+                        .addGroup(jDialogContactLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(jDialogContactLayout.createSequentialGroup()
+                                .addGroup(jDialogContactLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jDialogContactLayout.createSequentialGroup()
                                         .addComponent(jLabelSurname)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                         .addComponent(jTextFieldSurname, javax.swing.GroupLayout.PREFERRED_SIZE, 247, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jFrameContactLayout.createSequentialGroup()
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jDialogContactLayout.createSequentialGroup()
                                         .addComponent(jLabelName)
                                         .addGap(62, 62, 62)
                                         .addComponent(jTextFieldName, javax.swing.GroupLayout.PREFERRED_SIZE, 247, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                 .addGap(59, 59, 59)
                                 .addComponent(jPanelAddToGroup, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jFrameContactLayout.createSequentialGroup()
-                                .addGroup(jFrameContactLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jDialogContactLayout.createSequentialGroup()
+                                .addGroup(jDialogContactLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabelAddress)
                                     .addComponent(jLabelNumbers))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addGroup(jFrameContactLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addGroup(jFrameContactLayout.createSequentialGroup()
+                                .addGroup(jDialogContactLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addGroup(jDialogContactLayout.createSequentialGroup()
                                         .addComponent(jTextFieldAddress, javax.swing.GroupLayout.PREFERRED_SIZE, 247, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addGap(190, 190, 190))
-                                    .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))))
+                                    .addComponent(jPanelNumbers, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))))
                 .addGap(40, 40, 40))
+            .addGroup(jDialogContactLayout.createSequentialGroup()
+                .addGap(226, 226, 226)
+                .addComponent(jLabelEditContact)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
-        jFrameContactLayout.setVerticalGroup(
-            jFrameContactLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jFrameContactLayout.createSequentialGroup()
+        jDialogContactLayout.setVerticalGroup(
+            jDialogContactLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jDialogContactLayout.createSequentialGroup()
                 .addGap(26, 26, 26)
                 .addComponent(jLabelEditContact)
                 .addGap(18, 18, 18)
-                .addGroup(jFrameContactLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(jFrameContactLayout.createSequentialGroup()
-                        .addGroup(jFrameContactLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jDialogContactLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(jDialogContactLayout.createSequentialGroup()
+                        .addGroup(jDialogContactLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jTextFieldName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(jFrameContactLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(jLabelName)))
+                            .addComponent(jLabelName))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(jFrameContactLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addGroup(jDialogContactLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabelSurname)
                             .addComponent(jTextFieldSurname, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(7, 7, 7)
-                        .addGroup(jFrameContactLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addGroup(jDialogContactLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabelAddress)
                             .addComponent(jTextFieldAddress, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addComponent(jPanelAddToGroup, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(21, 21, 21)
-                .addGroup(jFrameContactLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jDialogContactLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabelNumbers)
-                    .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jPanelNumbers, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 15, Short.MAX_VALUE)
-                .addGroup(jFrameContactLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(jDialogContactLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButtonContactOK)
                     .addComponent(jButtonContactCancel))
                 .addContainerGap())
@@ -560,10 +566,9 @@ public class ContactsManager extends javax.swing.JFrame {
                 .addContainerGap(29, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addComponent(jButtonNewContact, javax.swing.GroupLayout.DEFAULT_SIZE, 73, Short.MAX_VALUE)
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addComponent(jButtonEditContact, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButtonDeleteContact, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jLabelContact, javax.swing.GroupLayout.DEFAULT_SIZE, 73, Short.MAX_VALUE)))
+                    .addComponent(jButtonEditContact, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButtonDeleteContact, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabelContact, javax.swing.GroupLayout.DEFAULT_SIZE, 73, Short.MAX_VALUE))
                 .addGap(28, 28, 28))
         );
         jPanel1Layout.setVerticalGroup(
@@ -722,17 +727,21 @@ public class ContactsManager extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jShowGroupMouseClicked
 
+    private void jTextFieldGroupNoteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldGroupNoteActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextFieldGroupNoteActionPerformed
+
     private void jButtonGroupOKMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButtonGroupOKMouseClicked
         // TODO add your handling code here:
     }//GEN-LAST:event_jButtonGroupOKMouseClicked
 
-    private void jButtonDeleteGroupCancelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButtonDeleteGroupCancelMouseClicked
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButtonDeleteGroupCancelMouseClicked
-
     private void jButtonDeleteGroupOKMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButtonDeleteGroupOKMouseClicked
         // TODO add your handling code here:
     }//GEN-LAST:event_jButtonDeleteGroupOKMouseClicked
+
+    private void jButtonDeleteGroupCancelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButtonDeleteGroupCancelMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButtonDeleteGroupCancelMouseClicked
 
     private void jButtonContactOKMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButtonContactOKMouseClicked
         // TODO add your handling code here:
@@ -800,9 +809,9 @@ public class ContactsManager extends javax.swing.JFrame {
     private javax.swing.JComboBox jComboBoxNumbers3;
     private javax.swing.JComboBox jComboBoxNumbers4;
     private javax.swing.JComboBox jComboBoxNumbers5;
-    private javax.swing.JFrame jFrameContact;
-    private javax.swing.JFrame jFrameDeleteGroup;
-    private javax.swing.JFrame jFrameNewEditGroup;
+    private javax.swing.JDialog jDialogContact;
+    private javax.swing.JDialog jDialogDeleteGroup;
+    private javax.swing.JDialog jDialogGroup;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabelAddToGroup;
     private javax.swing.JLabel jLabelAddress;
@@ -820,8 +829,8 @@ public class ContactsManager extends javax.swing.JFrame {
     private javax.swing.JTextField jNote;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanelAddToGroup;
+    private javax.swing.JPanel jPanelNumbers;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JButton jSearchButton;
