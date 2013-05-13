@@ -96,7 +96,7 @@ public class NumberTableModel extends AbstractTableModel
 	switch (columnIndex) {
 	    case 0:
 	    case 1:
-		return true;
+		return false;
 	    default:
 		throw new IllegalArgumentException("columnIndex");
 	}

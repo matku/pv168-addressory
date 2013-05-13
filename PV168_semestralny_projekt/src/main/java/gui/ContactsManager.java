@@ -51,12 +51,8 @@ public class ContactsManager extends javax.swing.JFrame {
 	protected Void doInBackground() throws Exception {
             contactTableModel = (ContactTableModel) jTableContact.getModel();
             contactTableModel.setContactManager(contactManager);
-            int counter = 0;
 	    for (Contact contact : contactManager.findAllContacts()) {
-                counter++;
-                Thread.sleep(70);
 		publish(contact);
-                setProgress(counter);
 	    }
 	    return null;
 	}
@@ -143,10 +139,7 @@ public class ContactsManager extends javax.swing.JFrame {
         jTextFieldAddress = new javax.swing.JTextField();
         jPanelAddToGroup = new javax.swing.JPanel();
         jLabelAddToGroup = new javax.swing.JLabel();
-        jCheckBoxFamily = new javax.swing.JCheckBox();
-        jCheckBoxFriends = new javax.swing.JCheckBox();
-        jCheckBoxWork = new javax.swing.JCheckBox();
-        jCheckBoxOther = new javax.swing.JCheckBox();
+        jComboBoxContactGroup = new javax.swing.JComboBox();
         jLabelNumbers = new javax.swing.JLabel();
         jPanelNumbers = new javax.swing.JPanel();
         jComboBoxNumbers1 = new javax.swing.JComboBox();
@@ -188,7 +181,7 @@ public class ContactsManager extends javax.swing.JFrame {
 
         jLabelGroupType.setText("Type:");
 
-        jComboBoxGroupType.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jComboBoxGroupType.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "WORK", "FRIENDS", "FAMILY", "OTHERS" }));
         jComboBoxGroupType.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jComboBoxGroupTypeActionPerformed(evt);
@@ -216,54 +209,60 @@ public class ContactsManager extends javax.swing.JFrame {
                 jButtonGroupOKMouseClicked(evt);
             }
         });
+        jButtonGroupOK.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonGroupOKActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jDialogGroupLayout = new javax.swing.GroupLayout(jDialogGroup.getContentPane());
         jDialogGroup.getContentPane().setLayout(jDialogGroupLayout);
         jDialogGroupLayout.setHorizontalGroup(
             jDialogGroupLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jDialogGroupLayout.createSequentialGroup()
-                .addGap(151, 151, 151)
-                .addComponent(jLabelNewEditGroup)
-                .addContainerGap(165, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jDialogGroupLayout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jButtonGroupCancel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jButtonGroupOK)
                 .addGap(22, 22, 22))
+            .addGroup(jDialogGroupLayout.createSequentialGroup()
+                .addGap(107, 107, 107)
+                .addGroup(jDialogGroupLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jDialogGroupLayout.createSequentialGroup()
+                        .addGap(44, 44, 44)
+                        .addComponent(jLabelNewEditGroup))
+                    .addComponent(jTextFieldGroupNote, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jComboBoxGroupType, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(110, Short.MAX_VALUE))
             .addGroup(jDialogGroupLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jDialogGroupLayout.createSequentialGroup()
                     .addGap(30, 30, 30)
                     .addGroup(jDialogGroupLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addComponent(jLabelGroupType)
                         .addComponent(jLabelGroupNote))
-                    .addGap(38, 38, 38)
-                    .addGroup(jDialogGroupLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(jComboBoxGroupType, 0, 194, Short.MAX_VALUE)
-                        .addComponent(jTextFieldGroupNote))
-                    .addContainerGap(110, Short.MAX_VALUE)))
+                    .addContainerGap(342, Short.MAX_VALUE)))
         );
         jDialogGroupLayout.setVerticalGroup(
             jDialogGroupLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jDialogGroupLayout.createSequentialGroup()
                 .addGap(25, 25, 25)
                 .addComponent(jLabelNewEditGroup)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 166, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
+                .addComponent(jComboBoxGroupType, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(26, 26, 26)
+                .addComponent(jTextFieldGroupNote, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 79, Short.MAX_VALUE)
                 .addGroup(jDialogGroupLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButtonGroupCancel)
                     .addComponent(jButtonGroupOK))
                 .addContainerGap())
             .addGroup(jDialogGroupLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jDialogGroupLayout.createSequentialGroup()
-                    .addGap(73, 73, 73)
-                    .addGroup(jDialogGroupLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jLabelGroupType)
-                        .addComponent(jComboBoxGroupType, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGap(24, 24, 24)
-                    .addGroup(jDialogGroupLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jLabelGroupNote)
-                        .addComponent(jTextFieldGroupNote, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addContainerGap(117, Short.MAX_VALUE)))
+                    .addGap(78, 78, 78)
+                    .addComponent(jLabelGroupType)
+                    .addGap(30, 30, 30)
+                    .addComponent(jLabelGroupNote)
+                    .addContainerGap(119, Short.MAX_VALUE)))
         );
 
         jLabelDeleteGroup.setFont(new java.awt.Font("Ubuntu", 1, 24)); // NOI18N
@@ -271,12 +270,17 @@ public class ContactsManager extends javax.swing.JFrame {
 
         jLabelDeleteGroupType.setText("Type:");
 
-        jComboBoxDeleteGroup.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jComboBoxDeleteGroup.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "WORK", "FRIENDS", "FAMILY", "OTHERS" }));
 
         jButtonDeleteGroupOK.setText("OK");
         jButtonDeleteGroupOK.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jButtonDeleteGroupOKMouseClicked(evt);
+            }
+        });
+        jButtonDeleteGroupOK.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonDeleteGroupOKActionPerformed(evt);
             }
         });
 
@@ -352,35 +356,17 @@ public class ContactsManager extends javax.swing.JFrame {
 
         jLabelAddToGroup.setText("Add to group");
 
-        jCheckBoxFamily.setText("Family");
-
-        jCheckBoxFriends.setText("Friends");
-
-        jCheckBoxWork.setText("Work");
-
-        jCheckBoxOther.setText("Other");
+        jComboBoxContactGroup.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "WORK", "FRIENDS", "FAMILY", "OTHERS" }));
 
         javax.swing.GroupLayout jPanelAddToGroupLayout = new javax.swing.GroupLayout(jPanelAddToGroup);
         jPanelAddToGroup.setLayout(jPanelAddToGroupLayout);
         jPanelAddToGroupLayout.setHorizontalGroup(
             jPanelAddToGroupLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelAddToGroupLayout.createSequentialGroup()
-                .addGroup(jPanelAddToGroupLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanelAddToGroupLayout.createSequentialGroup()
-                        .addGap(21, 21, 21)
-                        .addComponent(jLabelAddToGroup))
-                    .addGroup(jPanelAddToGroupLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jCheckBoxFamily))
-                    .addGroup(jPanelAddToGroupLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jCheckBoxFriends))
-                    .addGroup(jPanelAddToGroupLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jCheckBoxWork))
-                    .addGroup(jPanelAddToGroupLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jCheckBoxOther)))
+                .addGap(21, 21, 21)
+                .addGroup(jPanelAddToGroupLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jLabelAddToGroup, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jComboBoxContactGroup, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(17, Short.MAX_VALUE))
         );
         jPanelAddToGroupLayout.setVerticalGroup(
@@ -388,14 +374,8 @@ public class ContactsManager extends javax.swing.JFrame {
             .addGroup(jPanelAddToGroupLayout.createSequentialGroup()
                 .addComponent(jLabelAddToGroup)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jCheckBoxFamily)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jCheckBoxFriends)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jCheckBoxWork)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jCheckBoxOther)
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addComponent(jComboBoxContactGroup, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 64, Short.MAX_VALUE))
         );
 
         jLabelNumbers.setText("Numbers:");
@@ -633,6 +613,11 @@ public class ContactsManager extends javax.swing.JFrame {
                 jButtonDeleteContactMouseClicked(evt);
             }
         });
+        jButtonDeleteContact.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonDeleteContactActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -682,6 +667,11 @@ public class ContactsManager extends javax.swing.JFrame {
         jButtonEditGroup.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jButtonEditGroupMouseClicked(evt);
+            }
+        });
+        jButtonEditGroup.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonEditGroupActionPerformed(evt);
             }
         });
 
@@ -903,10 +893,7 @@ public class ContactsManager extends javax.swing.JFrame {
         jTextFieldNumbers4.setText("");
         jComboBoxNumbers5.setSelectedIndex(0);
         jTextFieldNumbers5.setText("");
-        jCheckBoxFamily.setSelected(false);
-        jCheckBoxFriends.setSelected(false);
-        jCheckBoxOther.setSelected(false);
-        jCheckBoxWork.setSelected(false);
+        jComboBoxContactGroup.setSelectedIndex(0);
         jDialogContact.pack();
         jDialogContact.setLocationRelativeTo(null);
         jDialogContact.setVisible(true);
@@ -937,7 +924,43 @@ public class ContactsManager extends javax.swing.JFrame {
     }//GEN-LAST:event_jButtonGroupCancelActionPerformed
 
     private void jComboBoxGroupTypeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxGroupTypeActionPerformed
-        // TODO add your handling code here:
+        Group group = null;
+        try
+        {
+            switch(jComboBoxGroupType.getSelectedItem().toString())
+            {
+                case "WORK":
+                    group = groupManager.findGroupByType(GroupType.WORK);
+                    break;
+                case "FRIENDS":
+                    group = groupManager.findGroupByType(GroupType.FRIENDS);
+                    break;
+                case "FAMILY":
+                    group = groupManager.findGroupByType(GroupType.FAMILY);
+                    break;
+                case "OTHERS":
+                    group = groupManager.findGroupByType(GroupType.OTHERS);
+                    break;
+            }
+        } catch (AppException e)
+        {
+            log.log(Level.SEVERE, "Application Error", e);
+        }
+        if (group == null)
+        {
+            jTextFieldGroupNote.setText("");
+        }
+        else
+        {
+            if (group.getNote() == null)
+            {
+                jTextFieldGroupNote.setText("");
+            }
+            else
+            {
+                jTextFieldGroupNote.setText(group.getNote());
+            }
+        }
     }//GEN-LAST:event_jComboBoxGroupTypeActionPerformed
 
     private void jButtonDeleteGroupActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonDeleteGroupActionPerformed
@@ -1046,6 +1069,10 @@ public class ContactsManager extends javax.swing.JFrame {
     }//GEN-LAST:event_jShowGroupActionPerformed
 
     private void jButtonEditContactActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEditContactActionPerformed
+        if (jTableContact.getSelectedRowCount() != 1)
+        {
+            return;
+        }
         Long contact_id = (Long) contactTableModel.getValueAt(jTableContact.getSelectedRow(), 0);
         Contact contact = contactManager.findContactByID(contact_id);
         if (contact == null)
@@ -1195,24 +1222,19 @@ public class ContactsManager extends javax.swing.JFrame {
                 jTextFieldNumbers5.setText("");
         }
         
-        jCheckBoxFamily.setSelected(false);
-        jCheckBoxFriends.setSelected(false);
-        jCheckBoxOther.setSelected(false);
-        jCheckBoxWork.setSelected(false);
-        
         switch(contactsManager.findGroupWithContact(contact).getType().toString())
         {
             case "WORK":
-                jCheckBoxWork.setSelected(true);
+                jComboBoxContactGroup.setSelectedIndex(0);
                 break;
             case "FRIENDS":
-                jCheckBoxFriends.setSelected(true);
+                jComboBoxContactGroup.setSelectedIndex(1);
                 break;
             case "FAMILY":
-                jCheckBoxFamily.setSelected(true);
+                jComboBoxContactGroup.setSelectedIndex(2);
                 break;
             case "OTHERS":
-                jCheckBoxOther.setSelected(true);
+                jComboBoxContactGroup.setSelectedIndex(3);
                 break;
         }
         
@@ -1232,15 +1254,15 @@ public class ContactsManager extends javax.swing.JFrame {
         contact.setSurname(jTextFieldSurname.getText());
         contact.setAddress(jTextFieldAddress.getText());
         Map<String, NumberType> numbers = new TreeMap<String, NumberType>();
-        if (!"".equals(jTextFieldNumbers1))
+        if (!"".equals(jTextFieldNumbers1.getText()))
             numbers.put(jTextFieldNumbers1.getText(), Enum.valueOf(NumberType.class, jComboBoxNumbers1.getSelectedItem().toString()));
-        if (!"".equals(jTextFieldNumbers2))
+        if (!"".equals(jTextFieldNumbers2.getText()))
             numbers.put(jTextFieldNumbers2.getText(), Enum.valueOf(NumberType.class, jComboBoxNumbers2.getSelectedItem().toString()));
-        if (!"".equals(jTextFieldNumbers3))
+        if (!"".equals(jTextFieldNumbers3.getText()))
             numbers.put(jTextFieldNumbers3.getText(), Enum.valueOf(NumberType.class, jComboBoxNumbers3.getSelectedItem().toString()));
-        if (!"".equals(jTextFieldNumbers4))
+        if (!"".equals(jTextFieldNumbers4.getText()))
             numbers.put(jTextFieldNumbers4.getText(), Enum.valueOf(NumberType.class, jComboBoxNumbers4.getSelectedItem().toString()));
-        if (!"".equals(jTextFieldNumbers5))
+        if (!"".equals(jTextFieldNumbers5.getText()))
             numbers.put(jTextFieldNumbers5.getText(), Enum.valueOf(NumberType.class, jComboBoxNumbers5.getSelectedItem().toString()));
         contact.setPhoneNumbers(numbers);
         
@@ -1250,11 +1272,112 @@ public class ContactsManager extends javax.swing.JFrame {
             {
                 log.log(Level.INFO, "Adding contact");
                 contactManager.newContact(contact);
-                contactTableModel.addContact(contact);
+                Group group;
+                boolean isGroup = false;
+                try
+                {
+                switch(jComboBoxContactGroup.getSelectedItem().toString())
+                {
+                    case "WORK":
+                        if ((group = groupManager.findGroupByType(GroupType.WORK)) != null)
+                        {
+                            contactsManager.addContactToGroup(contact, group);
+                            isGroup = true;
+                        }
+                        break;
+                    case "FRIENDS":
+                        if ((group = groupManager.findGroupByType(GroupType.FRIENDS)) != null)
+                        {
+                            contactsManager.addContactToGroup(contact, group);
+                            isGroup = true;
+                        }
+                        break;
+                    case "FAMILY":
+                        if ((group = groupManager.findGroupByType(GroupType.FAMILY)) != null)
+                        {
+                            contactsManager.addContactToGroup(contact, group);
+                            isGroup = true;
+                        }
+                        break;
+                    case "OTHERS":
+                        if ((group = groupManager.findGroupByType(GroupType.OTHERS)) != null)
+                        {
+                            contactsManager.addContactToGroup(contact, group);
+                            isGroup = true;
+                        }
+                        break;
+                }
+                } catch (AppException e)
+                {
+                    log.log(Level.SEVERE, "Application error", e);
+                }
+                if (!isGroup)
+                {
+                    contactManager.deleteContact(contact);
+                }
+                else
+                {
+                    contactTableModel.addContact(contact);
+                }
             }
             else  //update
             {
-                
+                log.log(Level.INFO, "Editing contact");
+                Long contactID = Long.valueOf(textContactID.getText());
+                contact.setId(contactID);
+                Contact contactCached = contactManager.findContactByID(contactID);
+                boolean isGroup = false;
+                if (!contactsManager.findGroupWithContact(contact).getType().toString().equals(jComboBoxContactGroup.getSelectedItem().toString()))
+                {
+                    contactsManager.removeContactFromGroup(contact, contactsManager.findGroupWithContact(contact));
+                    Group group;
+                    try
+                    {
+                    switch(jComboBoxContactGroup.getSelectedItem().toString())
+                    {
+                        case "WORK":
+                            if ((group = groupManager.findGroupByType(GroupType.WORK)) != null)
+                            {
+                                contactsManager.addContactToGroup(contact, group);
+                                isGroup = true;
+                            }
+                        break;
+                        case "FRIENDS":
+                            if ((group = groupManager.findGroupByType(GroupType.FRIENDS)) != null)
+                            {
+                                contactsManager.addContactToGroup(contact, group);
+                                isGroup = true;
+                            }
+                        case "FAMILY":
+                            if ((group = groupManager.findGroupByType(GroupType.FAMILY)) != null)
+                            {
+                                contactsManager.addContactToGroup(contact, group);
+                                isGroup = true;
+                            }
+                        case "OTHERS":
+                            if ((group = groupManager.findGroupByType(GroupType.OTHERS)) != null)
+                            {
+                                contactsManager.addContactToGroup(contact, group);
+                                isGroup = true;
+                            }
+                    }
+                    } catch (AppException e)
+                    {
+                        log.log(Level.SEVERE, "Application error", e);
+                    }
+                    
+                }
+                if (isGroup)
+                {
+                    contactManager.editContact(contact);
+                    contactTableModel.removeContact(contactCached);
+                    contactTableModel.addContact(contact);
+                }
+                else
+                {
+                    contactTableModel.removeContact(contact);
+                    contactManager.deleteContact(contact);
+                }
             }
         } catch (Exception e)
         {
@@ -1262,23 +1385,173 @@ public class ContactsManager extends javax.swing.JFrame {
         }
         
         jDialogContact.setVisible(false);
-//        try {
-//            /* Car ID */
-//            if (dialog_cars_idInput.getText().equals("")) { // Add
-//                LOGGER.log(Level.INFO, "Adding car");
-//                carManager.addCar(car);
-//                carTableModel.addCar(car);
-//            } else { // Update
-//                LOGGER.log(Level.INFO, "Updating car");
-//                Long carId = Long.valueOf(dialog_cars_idInput.getText());
-//                car.setId(carId);
-//                Car carCached = carManager.findCarById(carId);
-//                carManager.updateCar(car);
-//                carTableModel.removeCar(carCached);
-//                carTableModel.addCar(car);
-//            }
-//        }
     }//GEN-LAST:event_jButtonContactOKActionPerformed
+
+    private void jButtonDeleteContactActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonDeleteContactActionPerformed
+        if (jTableContact.getSelectedRowCount() == 0)
+        {
+            return;
+        }
+        int[] rows = jTableContact.getSelectedRows();
+        for (int i = 0; i < rows.length; i++)
+        {
+            Contact contact = contactManager.findContactByID(Long.valueOf(jTableContact.getValueAt(rows[i], 0).toString()));
+            contactsManager.removeContactFromGroup(contact, contactsManager.findGroupWithContact(contact));
+            contactManager.deleteContact(contact);
+            contactTableModel.removeContact(contact);
+        }
+    }//GEN-LAST:event_jButtonDeleteContactActionPerformed
+
+    private void jButtonEditGroupActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEditGroupActionPerformed
+        jComboBoxGroupType.setSelectedIndex(0);
+        try
+        {
+            jTextFieldGroupNote.setText(groupManager.findGroupByType(GroupType.WORK).getNote());
+        } catch (AppException e)
+        {
+            log.log(Level.SEVERE, "Application Error");
+        }
+        jDialogGroup.pack();
+        jDialogGroup.setLocationRelativeTo(null);
+        jDialogGroup.setVisible(true);
+    }//GEN-LAST:event_jButtonEditGroupActionPerformed
+
+    private void jButtonGroupOKActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonGroupOKActionPerformed
+        Group group = null;
+        String type = jComboBoxGroupType.getSelectedItem().toString();
+        try
+        {
+            switch(type)
+            {
+                case "WORK":
+                    if ((group = groupManager.findGroupByType(GroupType.WORK)) == null) //add
+                    {
+                        group = new Group();
+                        group.setType(GroupType.WORK);
+//                        if (!"".equals(jTextFieldGroupNote.getText()))
+                        group.setNote(jTextFieldGroupNote.getText());
+                        groupManager.newGroup(group);
+                    }
+                    else  //edit
+                    {
+                        group.setNote(jTextFieldGroupNote.getText());
+                        groupManager.editGroup(group);
+                    }
+                    break;
+                case "FRIENDS":
+                    if ((group = groupManager.findGroupByType(GroupType.FRIENDS)) == null) //add
+                    {
+                        group = new Group();
+                        group.setType(GroupType.FRIENDS);
+//                        if (!"".equals(jTextFieldGroupNote.getText()))
+                        group.setNote(jTextFieldGroupNote.getText());
+                        groupManager.newGroup(group);
+                    }
+                    else  //edit
+                    {
+                        group.setNote(jTextFieldGroupNote.getText());
+                        groupManager.editGroup(group);
+                    }
+                    break;
+                case "FAMILY":
+                    if ((group = groupManager.findGroupByType(GroupType.FAMILY)) == null) //add
+                    {
+                        group = new Group();
+                        group.setType(GroupType.FAMILY);
+//                        if (!"".equals(jTextFieldGroupNote.getText()))
+                        group.setNote(jTextFieldGroupNote.getText());
+                        groupManager.newGroup(group);
+                    }
+                    else  //edit
+                    {
+                        group.setNote(jTextFieldGroupNote.getText());
+                        groupManager.editGroup(group);
+                    }
+                    break;
+                case "OTHERS":
+                    if ((group = groupManager.findGroupByType(GroupType.OTHERS)) == null) //add
+                    {
+                        group = new Group();
+                        group.setType(GroupType.OTHERS);
+//                        if (!"".equals(jTextFieldGroupNote.getText()))
+                        group.setNote(jTextFieldGroupNote.getText());
+                        groupManager.newGroup(group);
+                    }
+                    else  //edit
+                    {
+                        group.setNote(jTextFieldGroupNote.getText());
+                        groupManager.editGroup(group);
+                    }
+                    break;
+            }
+        } catch (AppException e)
+        {
+            log.log(Level.SEVERE, "Application Error", e);
+        }
+        jDialogGroup.setVisible(false);
+    }//GEN-LAST:event_jButtonGroupOKActionPerformed
+
+    private void jButtonDeleteGroupOKActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonDeleteGroupOKActionPerformed
+        String type = jComboBoxDeleteGroup.getSelectedItem().toString();
+        Group group = null;
+        List<Contact> contacts;
+        try
+        {
+            switch(type)
+            {
+                case "WORK":
+                    if ((group = groupManager.findGroupByType(GroupType.WORK)) == null)
+                        break;
+                    contacts = contactsManager.findAllContactsInGroup(group);
+                    for (Contact contact : contacts)
+                    {
+                        contactsManager.removeContactFromGroup(contact, group);
+                        contactManager.deleteContact(contact);
+                    }
+                    groupManager.deleteGroup(group);
+                    break;
+                case "FRIENDS":
+                    if ((group = groupManager.findGroupByType(GroupType.FRIENDS)) == null)
+                        break;
+                    contacts = contactsManager.findAllContactsInGroup(group);
+                    for (Contact contact : contacts)
+                    {
+                        contactsManager.removeContactFromGroup(contact, group);
+                        contactManager.deleteContact(contact);
+                    }
+                    groupManager.deleteGroup(group);
+                    break;
+                case "FAMILY":
+                    if ((group = groupManager.findGroupByType(GroupType.FAMILY)) == null)
+                        break;
+                    contacts = contactsManager.findAllContactsInGroup(group);
+                    for (Contact contact : contacts)
+                    {
+                        contactsManager.removeContactFromGroup(contact, group);
+                        contactManager.deleteContact(contact);
+                    }
+                    groupManager.deleteGroup(group);
+                    break;
+                case "OTHERS":
+                    if ((group = groupManager.findGroupByType(GroupType.OTHERS)) == null)
+                        break;
+                    contacts = contactsManager.findAllContactsInGroup(group);
+                    for (Contact contact : contacts)
+                    {
+                        contactsManager.removeContactFromGroup(contact, group);
+                        contactManager.deleteContact(contact);
+                    }
+                    groupManager.deleteGroup(group);
+                    break;
+            }
+        } catch (AppException e)
+        {
+            log.log(Level.SEVERE, "App Error", e);
+        }
+        jDialogDeleteGroup.setVisible(false);
+        contactsSwingWorker = new ContactsSwingWorker();
+        contactsSwingWorker.execute();
+    }//GEN-LAST:event_jButtonDeleteGroupOKActionPerformed
 
     /**
      * @param args the command line arguments
@@ -1327,11 +1600,8 @@ public class ContactsManager extends javax.swing.JFrame {
     private javax.swing.JButton jButtonGroupOK;
     private javax.swing.JButton jButtonNewContact;
     private javax.swing.JButton jButtonNewGroup;
-    private javax.swing.JCheckBox jCheckBoxFamily;
-    private javax.swing.JCheckBox jCheckBoxFriends;
-    private javax.swing.JCheckBox jCheckBoxOther;
-    private javax.swing.JCheckBox jCheckBoxWork;
     private javax.swing.JComboBox jComboBox1;
+    private javax.swing.JComboBox jComboBoxContactGroup;
     private javax.swing.JComboBox jComboBoxDeleteGroup;
     private javax.swing.JComboBox jComboBoxGroupType;
     private javax.swing.JComboBox jComboBoxNumbers1;

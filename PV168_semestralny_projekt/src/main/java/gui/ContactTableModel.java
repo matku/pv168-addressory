@@ -131,7 +131,6 @@ public class ContactTableModel extends AbstractTableModel
 	    case 1:
 	    case 2:
             case 3:
-		return true;
 	    case 0:
 		return false;
 	    default:
