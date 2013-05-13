@@ -1,5 +1,24 @@
 package gui;
 
+import cz.muni.fi.pv168.projekt.pv168_semestralny_projekt.AppException;
+import cz.muni.fi.pv168.projekt.pv168_semestralny_projekt.Contact;
+import cz.muni.fi.pv168.projekt.pv168_semestralny_projekt.ContactManager;
+import cz.muni.fi.pv168.projekt.pv168_semestralny_projekt.ContactManagerImpl;
+import cz.muni.fi.pv168.projekt.pv168_semestralny_projekt.ContactsManagerImpl;
+import cz.muni.fi.pv168.projekt.pv168_semestralny_projekt.Group;
+import cz.muni.fi.pv168.projekt.pv168_semestralny_projekt.GroupManager;
+import cz.muni.fi.pv168.projekt.pv168_semestralny_projekt.GroupManagerImpl;
+import cz.muni.fi.pv168.projekt.pv168_semestralny_projekt.GroupType;
+import cz.muni.fi.pv168.projekt.pv168_semestralny_projekt.NumberType;
+import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.SwingWorker;
+import org.apache.commons.dbcp.BasicDataSource;
+
+
 /*
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
@@ -11,12 +30,85 @@ package gui;
  */
 public class ContactsManager extends javax.swing.JFrame {
 
+    java.util.ResourceBundle translate;
+    
+    BasicDataSource basicDataSource = new BasicDataSource();
+    private static final Logger log = Logger.getLogger(ContactsManager.class.getName());
+    
+    ContactManager contactManager;
+    GroupManager groupManager;
+    cz.muni.fi.pv168.projekt.pv168_semestralny_projekt.ContactsManager contactsManager;
+    
+    ContactTableModel contactTableModel;
+    NumberTableModel numberTableModel;
+    
+    
+    
+    private ContactsSwingWorker contactsSwingWorker;
+    private class ContactsSwingWorker extends SwingWorker<Void, Contact> {
+
+	@Override
+	protected Void doInBackground() throws Exception {
+            contactTableModel = (ContactTableModel) jTableContact.getModel();
+            contactTableModel.setContactManager(contactManager);
+            int counter = 0;
+	    for (Contact contact : contactManager.findAllContacts()) {
+                counter++;
+                Thread.sleep(70);
+		publish(contact);
+                setProgress(counter);
+	    }
+	    return null;
+	}
+	
+	@Override
+	protected void process(List<Contact> items) {
+	    for (Contact i : items) {
+                contactTableModel.addContact(i);
+	    }
+	}
+
+        @Override
+        protected void done() {
+            contactsSwingWorker = null;
+        }
+    }
+    
+    private void setUp() throws Exception {
+//        Properties configFile = new Properties();
+//        configFile.load(new FileInputStream("src/config.properties"));
+	BasicDataSource bds = new BasicDataSource();
+	bds.setUrl( "jdbc:derby://localhost:1527/skuska" );//configFile.getProperty( "url" ) );
+	bds.setPassword( "password" );//configFile.getProperty( "password" ) );
+	bds.setUsername( "martin" );//configFile.getProperty( "username" ) );
+	basicDataSource = bds;
+    }
+    
     /**
      * Creates new form ContactsManager
      */
     public ContactsManager() {
+        try {
+            setUp();
+        } catch (Exception ex) {
+	    String msg = "Application setup failed.";
+            log.log(Level.SEVERE, msg, ex);
+        }
         initComponents();
+        
+        contactManager	= new ContactManagerImpl(basicDataSource);
+        groupManager    = new GroupManagerImpl(basicDataSource);
+        contactsManager = new ContactsManagerImpl(basicDataSource);
+        
+        numberTableModel = (NumberTableModel) jTableNumber.getModel();
+        numberTableModel.setContactManager(contactManager);
+        
+        contactsSwingWorker = new ContactsSwingWorker();
+        contactsSwingWorker.execute();
+        
+        textContactID.setVisible(false);
     }
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -69,6 +161,7 @@ public class ContactsManager extends javax.swing.JFrame {
         jTextFieldNumbers5 = new javax.swing.JTextField();
         jButtonContactOK = new javax.swing.JButton();
         jButtonContactCancel = new javax.swing.JButton();
+        textContactID = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
         jShowGroup = new javax.swing.JComboBox();
         jNote = new javax.swing.JTextField();
@@ -88,6 +181,7 @@ public class ContactsManager extends javax.swing.JFrame {
         jButtonDeleteGroup = new javax.swing.JButton();
         jSearchField = new javax.swing.JTextField();
         jSearchButton = new javax.swing.JButton();
+        jComboBox1 = new javax.swing.JComboBox();
 
         jLabelNewEditGroup.setFont(new java.awt.Font("Ubuntu", 1, 24)); // NOI18N
         jLabelNewEditGroup.setText("GROUP");
@@ -95,6 +189,11 @@ public class ContactsManager extends javax.swing.JFrame {
         jLabelGroupType.setText("Type:");
 
         jComboBoxGroupType.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jComboBoxGroupType.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBoxGroupTypeActionPerformed(evt);
+            }
+        });
 
         jLabelGroupNote.setText("Note:");
 
@@ -105,6 +204,11 @@ public class ContactsManager extends javax.swing.JFrame {
         });
 
         jButtonGroupCancel.setText("Cancel");
+        jButtonGroupCancel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonGroupCancelActionPerformed(evt);
+            }
+        });
 
         jButtonGroupOK.setText("OK");
         jButtonGroupOK.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -137,7 +241,7 @@ public class ContactsManager extends javax.swing.JFrame {
                     .addGroup(jDialogGroupLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                         .addComponent(jComboBoxGroupType, 0, 194, Short.MAX_VALUE)
                         .addComponent(jTextFieldGroupNote))
-                    .addContainerGap(99, Short.MAX_VALUE)))
+                    .addContainerGap(110, Short.MAX_VALUE)))
         );
         jDialogGroupLayout.setVerticalGroup(
             jDialogGroupLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -159,7 +263,7 @@ public class ContactsManager extends javax.swing.JFrame {
                     .addGroup(jDialogGroupLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jLabelGroupNote)
                         .addComponent(jTextFieldGroupNote, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addContainerGap(109, Short.MAX_VALUE)))
+                    .addContainerGap(117, Short.MAX_VALUE)))
         );
 
         jLabelDeleteGroup.setFont(new java.awt.Font("Ubuntu", 1, 24)); // NOI18N
@@ -180,6 +284,11 @@ public class ContactsManager extends javax.swing.JFrame {
         jButtonDeleteGroupCancel.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jButtonDeleteGroupCancelMouseClicked(evt);
+            }
+        });
+        jButtonDeleteGroupCancel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonDeleteGroupCancelActionPerformed(evt);
             }
         });
 
@@ -231,6 +340,12 @@ public class ContactsManager extends javax.swing.JFrame {
         jLabelSurname.setText("Surname:");
 
         jLabelAddress.setText("Address:");
+
+        jTextFieldName.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextFieldNameActionPerformed(evt);
+            }
+        });
 
         jPanelAddToGroup.setBackground(new java.awt.Color(254, 254, 254));
         jPanelAddToGroup.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
@@ -288,15 +403,20 @@ public class ContactsManager extends javax.swing.JFrame {
         jPanelNumbers.setBackground(new java.awt.Color(254, 254, 254));
         jPanelNumbers.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
-        jComboBoxNumbers1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jComboBoxNumbers1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "WORK", "HOME", "MOBILE", "FAX" }));
+        jComboBoxNumbers1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBoxNumbers1ActionPerformed(evt);
+            }
+        });
 
-        jComboBoxNumbers2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jComboBoxNumbers2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "WORK", "HOME", "MOBILE", "FAX" }));
 
-        jComboBoxNumbers3.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jComboBoxNumbers3.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "WORK", "HOME", "MOBILE", "FAX" }));
 
-        jComboBoxNumbers4.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jComboBoxNumbers4.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "WORK", "HOME", "MOBILE", "FAX" }));
 
-        jComboBoxNumbers5.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jComboBoxNumbers5.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "WORK", "HOME", "MOBILE", "FAX" }));
 
         javax.swing.GroupLayout jPanelNumbersLayout = new javax.swing.GroupLayout(jPanelNumbers);
         jPanelNumbers.setLayout(jPanelNumbersLayout);
@@ -351,6 +471,11 @@ public class ContactsManager extends javax.swing.JFrame {
                 jButtonContactOKMouseClicked(evt);
             }
         });
+        jButtonContactOK.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonContactOKActionPerformed(evt);
+            }
+        });
 
         jButtonContactCancel.setText("Cancel");
         jButtonContactCancel.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -358,6 +483,13 @@ public class ContactsManager extends javax.swing.JFrame {
                 jButtonContactCancelMouseClicked(evt);
             }
         });
+        jButtonContactCancel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonContactCancelActionPerformed(evt);
+            }
+        });
+
+        textContactID.setEditable(false);
 
         javax.swing.GroupLayout jDialogContactLayout = new javax.swing.GroupLayout(jDialogContact.getContentPane());
         jDialogContact.getContentPane().setLayout(jDialogContactLayout);
@@ -397,7 +529,9 @@ public class ContactsManager extends javax.swing.JFrame {
                                     .addComponent(jPanelNumbers, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))))
                 .addGap(40, 40, 40))
             .addGroup(jDialogContactLayout.createSequentialGroup()
-                .addGap(226, 226, 226)
+                .addGap(144, 144, 144)
+                .addComponent(textContactID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(73, 73, 73)
                 .addComponent(jLabelEditContact)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -405,7 +539,9 @@ public class ContactsManager extends javax.swing.JFrame {
             jDialogContactLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jDialogContactLayout.createSequentialGroup()
                 .addGap(26, 26, 26)
-                .addComponent(jLabelEditContact)
+                .addGroup(jDialogContactLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabelEditContact)
+                    .addComponent(textContactID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jDialogContactLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(jDialogContactLayout.createSequentialGroup()
@@ -437,10 +573,15 @@ public class ContactsManager extends javax.swing.JFrame {
         jLabel1.setFont(new java.awt.Font("Ubuntu", 1, 24)); // NOI18N
         jLabel1.setText("CONTACTS MANAGER");
 
-        jShowGroup.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jShowGroup.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "ALL CONTACTS", "WORK", "FRIENDS", "FAMILY", "OTHERS" }));
         jShowGroup.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jShowGroupMouseClicked(evt);
+            }
+        });
+        jShowGroup.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jShowGroupActionPerformed(evt);
             }
         });
 
@@ -451,85 +592,10 @@ public class ContactsManager extends javax.swing.JFrame {
             }
         });
 
-        jTableContact.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null}
-            },
-            new String [] {
-                "SURNAME", "NAME", "ADDRESS"
-            }
-        ) {
-            Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class
-            };
-            boolean[] canEdit = new boolean [] {
-                false, false, false
-            };
-
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
-            }
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
+        jTableContact.setModel(new ContactTableModel());
         jScrollPane1.setViewportView(jTableContact);
-        jTableContact.getColumnModel().getColumn(1).setResizable(false);
 
-        jTableNumber.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null}
-            },
-            new String [] {
-                "TYPE", "NUMBER"
-            }
-        ) {
-            Class[] types = new Class [] {
-                java.lang.Object.class, java.lang.String.class
-            };
-            boolean[] canEdit = new boolean [] {
-                false, false
-            };
-
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
-            }
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
+        jTableNumber.setModel(new NumberTableModel());
         jScrollPane2.setViewportView(jTableNumber);
 
         jPanel1.setBackground(new java.awt.Color(207, 204, 201));
@@ -543,11 +609,21 @@ public class ContactsManager extends javax.swing.JFrame {
                 jButtonNewContactMouseClicked(evt);
             }
         });
+        jButtonNewContact.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonNewContactActionPerformed(evt);
+            }
+        });
 
         jButtonEditContact.setText("Edit");
         jButtonEditContact.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jButtonEditContactMouseClicked(evt);
+            }
+        });
+        jButtonEditContact.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonEditContactActionPerformed(evt);
             }
         });
 
@@ -565,10 +641,10 @@ public class ContactsManager extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap(29, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(jButtonNewContact, javax.swing.GroupLayout.DEFAULT_SIZE, 73, Short.MAX_VALUE)
+                    .addComponent(jButtonNewContact, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jButtonEditContact, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jButtonDeleteContact, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabelContact, javax.swing.GroupLayout.DEFAULT_SIZE, 73, Short.MAX_VALUE))
+                    .addComponent(jLabelContact, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(28, 28, 28))
         );
         jPanel1Layout.setVerticalGroup(
@@ -596,6 +672,11 @@ public class ContactsManager extends javax.swing.JFrame {
                 jButtonNewGroupMouseClicked(evt);
             }
         });
+        jButtonNewGroup.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonNewGroupActionPerformed(evt);
+            }
+        });
 
         jButtonEditGroup.setText("Edit");
         jButtonEditGroup.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -610,6 +691,11 @@ public class ContactsManager extends javax.swing.JFrame {
                 jButtonDeleteGroupMouseClicked(evt);
             }
         });
+        jButtonDeleteGroup.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonDeleteGroupActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -618,10 +704,10 @@ public class ContactsManager extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                 .addContainerGap(29, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(jButtonNewGroup, javax.swing.GroupLayout.DEFAULT_SIZE, 73, Short.MAX_VALUE)
+                    .addComponent(jButtonNewGroup, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jButtonEditGroup, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jButtonDeleteGroup, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabelGroup, javax.swing.GroupLayout.DEFAULT_SIZE, 73, Short.MAX_VALUE))
+                    .addComponent(jLabelGroup, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(28, 28, 28))
         );
         jPanel2Layout.setVerticalGroup(
@@ -638,7 +724,25 @@ public class ContactsManager extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
+        jSearchField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jSearchFieldActionPerformed(evt);
+            }
+        });
+
         jSearchButton.setText("Search");
+        jSearchButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jSearchButtonActionPerformed(evt);
+            }
+        });
+
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "EN", "CZ", "SK" }));
+        jComboBox1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBox1ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -666,15 +770,22 @@ public class ContactsManager extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(261, 261, 261)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jShowGroup, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 285, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(254, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jShowGroup, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap())
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 208, Short.MAX_VALUE)
+                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jShowGroup, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -751,6 +862,424 @@ public class ContactsManager extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jButtonContactCancelMouseClicked
 
+    private void jSearchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jSearchButtonActionPerformed
+        String search = jSearchField.getText();
+        Contact contact = null;
+        if (search != null && !"".equals(search)) 
+        {
+            contact = contactManager.findContactByName(search);
+        }
+        else
+        {
+            numberTableModel.clear();
+            contactTableModel.clear();
+            contactsSwingWorker = new ContactsSwingWorker();
+            contactsSwingWorker.execute();
+        }
+        numberTableModel.clear();
+        contactTableModel.clear();
+        if (contact == null)
+        {
+            return;
+        }
+        else
+        {
+            contactTableModel.addContact(contact);
+        }
+    }//GEN-LAST:event_jSearchButtonActionPerformed
+
+    private void jButtonNewContactActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonNewContactActionPerformed
+        textContactID.setText("");
+        jTextFieldName.setText("");
+        jTextFieldSurname.setText("");
+        jTextFieldAddress.setText("");
+        jComboBoxNumbers1.setSelectedIndex(0);
+        jTextFieldNumbers1.setText("");
+        jComboBoxNumbers2.setSelectedIndex(0);
+        jTextFieldNumbers2.setText("");
+        jComboBoxNumbers3.setSelectedIndex(0);
+        jTextFieldNumbers3.setText("");
+        jComboBoxNumbers4.setSelectedIndex(0);
+        jTextFieldNumbers4.setText("");
+        jComboBoxNumbers5.setSelectedIndex(0);
+        jTextFieldNumbers5.setText("");
+        jCheckBoxFamily.setSelected(false);
+        jCheckBoxFriends.setSelected(false);
+        jCheckBoxOther.setSelected(false);
+        jCheckBoxWork.setSelected(false);
+        jDialogContact.pack();
+        jDialogContact.setLocationRelativeTo(null);
+        jDialogContact.setVisible(true);
+    }//GEN-LAST:event_jButtonNewContactActionPerformed
+
+    private void jButtonNewGroupActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonNewGroupActionPerformed
+        jComboBoxGroupType.setSelectedIndex(0);
+        jTextFieldGroupNote.setText("");
+        jDialogGroup.pack();
+        jDialogGroup.setLocationRelativeTo(null);
+        jDialogGroup.setVisible(true);
+    }//GEN-LAST:event_jButtonNewGroupActionPerformed
+
+    private void jTextFieldNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldNameActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextFieldNameActionPerformed
+
+    private void jButtonContactCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonContactCancelActionPerformed
+        jDialogContact.setVisible(false);
+    }//GEN-LAST:event_jButtonContactCancelActionPerformed
+
+    private void jButtonDeleteGroupCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonDeleteGroupCancelActionPerformed
+        jDialogDeleteGroup.setVisible(false);
+    }//GEN-LAST:event_jButtonDeleteGroupCancelActionPerformed
+
+    private void jButtonGroupCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonGroupCancelActionPerformed
+        jDialogGroup.setVisible(false);
+    }//GEN-LAST:event_jButtonGroupCancelActionPerformed
+
+    private void jComboBoxGroupTypeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxGroupTypeActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jComboBoxGroupTypeActionPerformed
+
+    private void jButtonDeleteGroupActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonDeleteGroupActionPerformed
+        jDialogDeleteGroup.pack();
+        jDialogDeleteGroup.setLocationRelativeTo(null);
+        jDialogDeleteGroup.setVisible(true);
+    }//GEN-LAST:event_jButtonDeleteGroupActionPerformed
+
+    private void jSearchFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jSearchFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jSearchFieldActionPerformed
+
+    private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
+        String lang = jComboBox1.getSelectedItem().toString();
+        switch(lang)
+        {
+            case "CZ":
+                jLabel1.setText("SEZNAM KONTAKTU");
+                //translate = java.util.ResourceBundle.getBundle("gui/Translation_cz");
+                break;
+            case "EN":
+                jLabel1.setText("CONTACTS MANAGER");
+                //translate = java.util.ResourceBundle.getBundle("gui/Translation_en");
+                break;
+        }
+        //jComboBox1.setSelectedIndex(0);
+    }//GEN-LAST:event_jComboBox1ActionPerformed
+
+    private void jShowGroupActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jShowGroupActionPerformed
+        String action = jShowGroup.getSelectedItem().toString();
+        numberTableModel.clear();
+        contactTableModel.clear();
+        jNote.setText("");
+        Group group = null;
+        switch(action)
+        {
+            case "ALL CONTACTS":
+                contactsSwingWorker = new ContactsSwingWorker();
+                contactsSwingWorker.execute();
+                break;
+            case "WORK":
+                try {
+                    if ((group = groupManager.findGroupByType(GroupType.WORK)) == null)
+                        return;
+                    jNote.setText(group.getNote());
+                } catch (AppException ex) {
+                    log.log(Level.SEVERE, "group not in db", ex);
+                    contactsSwingWorker = new ContactsSwingWorker();
+                    contactsSwingWorker.execute();
+                    return;
+                }
+                for(Contact contact : contactsManager.findAllContactsInGroup(group))
+                {
+                    contactTableModel.addContact(contact);
+                }
+                break;
+            case "FRIENDS":
+                try {
+                    if ((group = groupManager.findGroupByType(GroupType.FRIENDS)) == null)
+                        return;
+                    jNote.setText(group.getNote());
+                } catch (AppException ex) {
+                    log.log(Level.SEVERE, "group not in db", ex);
+                    contactsSwingWorker = new ContactsSwingWorker();
+                    contactsSwingWorker.execute();
+                    return;
+                }
+                for(Contact contact : contactsManager.findAllContactsInGroup(group))
+                {
+                    contactTableModel.addContact(contact);
+                }
+                break;
+            case "FAMILY":
+                try {
+                    if ((group = groupManager.findGroupByType(GroupType.FAMILY)) == null)
+                        return;
+                    jNote.setText(group.getNote());
+                } catch (AppException ex) {
+                    log.log(Level.SEVERE, "group not in db", ex);
+                    contactsSwingWorker = new ContactsSwingWorker();
+                    contactsSwingWorker.execute();
+                    return;
+                }
+                for(Contact contact : contactsManager.findAllContactsInGroup(group))
+                {
+                    contactTableModel.addContact(contact);
+                }
+                break;
+            case "OTHERS":
+                try {
+                    if ((group = groupManager.findGroupByType(GroupType.OTHERS)) == null)
+                        return;
+                    jNote.setText(group.getNote());
+                } catch (AppException ex) {
+                    log.log(Level.SEVERE, "group not in db", ex);
+                    contactsSwingWorker = new ContactsSwingWorker();
+                    contactsSwingWorker.execute();
+                    return;
+                }
+                for(Contact contact : contactsManager.findAllContactsInGroup(group))
+                {
+                    contactTableModel.addContact(contact);
+                }
+                break;
+        }
+    }//GEN-LAST:event_jShowGroupActionPerformed
+
+    private void jButtonEditContactActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEditContactActionPerformed
+        Long contact_id = (Long) contactTableModel.getValueAt(jTableContact.getSelectedRow(), 0);
+        Contact contact = contactManager.findContactByID(contact_id);
+        if (contact == null)
+        {
+            log.log(Level.WARNING, "could not find contact in db.");
+            return;
+        }
+        textContactID.setText(String.valueOf(contact.getId()));
+        
+        jTextFieldName.setText(contact.getName());
+        jTextFieldSurname.setText(contact.getSurname());
+        jTextFieldAddress.setText(contact.getAddress());
+        
+        Map<String, NumberType> numbers = contact.getPhoneNumbers();
+        int counter = 0;
+        for (Map.Entry<String, NumberType> entry : numbers.entrySet())
+        {
+            if (counter == 0)
+            {
+                switch(entry.getValue().toString())
+                {
+                    case "WORK":
+                        jComboBoxNumbers1.setSelectedIndex(0);
+                        jTextFieldNumbers1.setText(entry.getKey());
+                        break;
+                    case "HOME":
+                        jComboBoxNumbers1.setSelectedIndex(1);
+                        jTextFieldNumbers1.setText(entry.getKey());
+                        break;
+                    case "MOBILE":
+                        jComboBoxNumbers1.setSelectedIndex(2);
+                        jTextFieldNumbers1.setText(entry.getKey());
+                        break;
+                    case "FAX":
+                        jComboBoxNumbers1.setSelectedIndex(3);
+                        jTextFieldNumbers1.setText(entry.getKey());
+                        break;
+                }
+            }
+            if (counter == 1)
+            {
+                switch(entry.getValue().toString())
+                {
+                    case "WORK":
+                        jComboBoxNumbers2.setSelectedIndex(0);
+                        jTextFieldNumbers2.setText(entry.getKey());
+                        break;
+                    case "HOME":
+                        jComboBoxNumbers2.setSelectedIndex(1);
+                        jTextFieldNumbers2.setText(entry.getKey());
+                        break;
+                    case "MOBILE":
+                        jComboBoxNumbers2.setSelectedIndex(2);
+                        jTextFieldNumbers2.setText(entry.getKey());
+                        break;
+                    case "FAX":
+                        jComboBoxNumbers2.setSelectedIndex(3);
+                        jTextFieldNumbers2.setText(entry.getKey());
+                        break;
+                }
+            }
+            if (counter == 2)
+            {
+                switch(entry.getValue().toString())
+                {
+                    case "WORK":
+                        jComboBoxNumbers3.setSelectedIndex(0);
+                        jTextFieldNumbers3.setText(entry.getKey());
+                        break;
+                    case "HOME":
+                        jComboBoxNumbers3.setSelectedIndex(1);
+                        jTextFieldNumbers3.setText(entry.getKey());
+                        break;
+                    case "MOBILE":
+                        jComboBoxNumbers3.setSelectedIndex(2);
+                        jTextFieldNumbers3.setText(entry.getKey());
+                        break;
+                    case "FAX":
+                        jComboBoxNumbers3.setSelectedIndex(3);
+                        jTextFieldNumbers3.setText(entry.getKey());
+                        break;
+                }
+            }
+            if (counter == 3)
+            {
+                switch(entry.getValue().toString())
+                {
+                    case "WORK":
+                        jComboBoxNumbers4.setSelectedIndex(0);
+                        jTextFieldNumbers4.setText(entry.getKey());
+                        break;
+                    case "HOME":
+                        jComboBoxNumbers4.setSelectedIndex(1);
+                        jTextFieldNumbers4.setText(entry.getKey());
+                        break;
+                    case "MOBILE":
+                        jComboBoxNumbers4.setSelectedIndex(2);
+                        jTextFieldNumbers4.setText(entry.getKey());
+                        break;
+                    case "FAX":
+                        jComboBoxNumbers4.setSelectedIndex(3);
+                        jTextFieldNumbers4.setText(entry.getKey());
+                        break;
+                }
+            }
+            if (counter == 4)
+            {
+                switch(entry.getValue().toString())
+                {
+                    case "WORK":
+                        jComboBoxNumbers5.setSelectedIndex(0);
+                        jTextFieldNumbers5.setText(entry.getKey());
+                        break;
+                    case "HOME":
+                        jComboBoxNumbers5.setSelectedIndex(1);
+                        jTextFieldNumbers5.setText(entry.getKey());
+                        break;
+                    case "MOBILE":
+                        jComboBoxNumbers5.setSelectedIndex(2);
+                        jTextFieldNumbers5.setText(entry.getKey());
+                        break;
+                    case "FAX":
+                        jComboBoxNumbers5.setSelectedIndex(3);
+                        jTextFieldNumbers5.setText(entry.getKey());
+                        break;
+                }
+            }
+            counter++;
+        }
+        
+        switch(counter)
+        {
+            case 0:
+                jComboBoxNumbers1.setSelectedIndex(0);
+                jTextFieldNumbers1.setText("");
+            case 1:
+                jComboBoxNumbers2.setSelectedIndex(0);
+                jTextFieldNumbers2.setText("");
+            case 2:
+                jComboBoxNumbers3.setSelectedIndex(0);
+                jTextFieldNumbers3.setText("");
+            case 3:
+                jComboBoxNumbers4.setSelectedIndex(0);
+                jTextFieldNumbers4.setText("");
+            case 4:
+                jComboBoxNumbers5.setSelectedIndex(0);
+                jTextFieldNumbers5.setText("");
+        }
+        
+        jCheckBoxFamily.setSelected(false);
+        jCheckBoxFriends.setSelected(false);
+        jCheckBoxOther.setSelected(false);
+        jCheckBoxWork.setSelected(false);
+        
+        switch(contactsManager.findGroupWithContact(contact).getType().toString())
+        {
+            case "WORK":
+                jCheckBoxWork.setSelected(true);
+                break;
+            case "FRIENDS":
+                jCheckBoxFriends.setSelected(true);
+                break;
+            case "FAMILY":
+                jCheckBoxFamily.setSelected(true);
+                break;
+            case "OTHERS":
+                jCheckBoxOther.setSelected(true);
+                break;
+        }
+        
+        jDialogContact.pack();
+        jDialogContact.setLocationRelativeTo(null);
+        jDialogContact.setVisible(true);
+    }//GEN-LAST:event_jButtonEditContactActionPerformed
+
+    private void jComboBoxNumbers1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxNumbers1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jComboBoxNumbers1ActionPerformed
+
+    private void jButtonContactOKActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonContactOKActionPerformed
+        Contact contact = new Contact();
+        
+        contact.setName(jTextFieldName.getText());
+        contact.setSurname(jTextFieldSurname.getText());
+        contact.setAddress(jTextFieldAddress.getText());
+        Map<String, NumberType> numbers = new TreeMap<String, NumberType>();
+        if (!"".equals(jTextFieldNumbers1))
+            numbers.put(jTextFieldNumbers1.getText(), Enum.valueOf(NumberType.class, jComboBoxNumbers1.getSelectedItem().toString()));
+        if (!"".equals(jTextFieldNumbers2))
+            numbers.put(jTextFieldNumbers2.getText(), Enum.valueOf(NumberType.class, jComboBoxNumbers2.getSelectedItem().toString()));
+        if (!"".equals(jTextFieldNumbers3))
+            numbers.put(jTextFieldNumbers3.getText(), Enum.valueOf(NumberType.class, jComboBoxNumbers3.getSelectedItem().toString()));
+        if (!"".equals(jTextFieldNumbers4))
+            numbers.put(jTextFieldNumbers4.getText(), Enum.valueOf(NumberType.class, jComboBoxNumbers4.getSelectedItem().toString()));
+        if (!"".equals(jTextFieldNumbers5))
+            numbers.put(jTextFieldNumbers5.getText(), Enum.valueOf(NumberType.class, jComboBoxNumbers5.getSelectedItem().toString()));
+        contact.setPhoneNumbers(numbers);
+        
+        try
+        {
+            if (textContactID.getText().equals(""))  // Add
+            {
+                log.log(Level.INFO, "Adding contact");
+                contactManager.newContact(contact);
+                contactTableModel.addContact(contact);
+            }
+            else  //update
+            {
+                
+            }
+        } catch (Exception e)
+        {
+            log.log(Level.INFO, "User request failed");
+        }
+        
+        jDialogContact.setVisible(false);
+//        try {
+//            /* Car ID */
+//            if (dialog_cars_idInput.getText().equals("")) { // Add
+//                LOGGER.log(Level.INFO, "Adding car");
+//                carManager.addCar(car);
+//                carTableModel.addCar(car);
+//            } else { // Update
+//                LOGGER.log(Level.INFO, "Updating car");
+//                Long carId = Long.valueOf(dialog_cars_idInput.getText());
+//                car.setId(carId);
+//                Car carCached = carManager.findCarById(carId);
+//                carManager.updateCar(car);
+//                carTableModel.removeCar(carCached);
+//                carTableModel.addCar(car);
+//            }
+//        }
+    }//GEN-LAST:event_jButtonContactOKActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -802,6 +1331,7 @@ public class ContactsManager extends javax.swing.JFrame {
     private javax.swing.JCheckBox jCheckBoxFriends;
     private javax.swing.JCheckBox jCheckBoxOther;
     private javax.swing.JCheckBox jCheckBoxWork;
+    private javax.swing.JComboBox jComboBox1;
     private javax.swing.JComboBox jComboBoxDeleteGroup;
     private javax.swing.JComboBox jComboBoxGroupType;
     private javax.swing.JComboBox jComboBoxNumbers1;
@@ -847,5 +1377,6 @@ public class ContactsManager extends javax.swing.JFrame {
     private javax.swing.JTextField jTextFieldNumbers4;
     private javax.swing.JTextField jTextFieldNumbers5;
     private javax.swing.JTextField jTextFieldSurname;
+    private javax.swing.JTextField textContactID;
     // End of variables declaration//GEN-END:variables
 }
