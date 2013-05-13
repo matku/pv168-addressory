@@ -12,13 +12,15 @@ import cz.muni.fi.pv168.projekt.pv168_semestralny_projekt.GroupType;
 import cz.muni.fi.pv168.projekt.pv168_semestralny_projekt.NumberType;
 import java.util.List;
 import java.util.Locale;
-import java.util.Locale;
+
 import java.util.Map;
 import java.util.MissingResourceException;
+import java.util.ResourceBundle;
 import java.util.TreeMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.SwingWorker;
+import javax.swing.*;
 import org.apache.commons.dbcp.BasicDataSource;
 
 
@@ -32,8 +34,15 @@ import org.apache.commons.dbcp.BasicDataSource;
  * @author lencii
  */
 public class ContactsManager extends javax.swing.JFrame {
+    
+    Locale locale_cs = new Locale("cs");
+    Locale locale_en = new Locale("en");
+    Locale locale_sk = new Locale("sk");
+    
+    
+       
 
-    java.util.ResourceBundle translate;
+    ResourceBundle translate=ResourceBundle.getBundle("Bundle",Locale.getDefault());
     
     BasicDataSource basicDataSource = new BasicDataSource();
     private static final Logger log = Logger.getLogger(ContactsManager.class.getName());
@@ -93,6 +102,9 @@ public class ContactsManager extends javax.swing.JFrame {
 	    String msg = "Application setup failed.";
             log.log(Level.SEVERE, msg, ex);
         }
+        Locale defaultLocale =Locale.getDefault();
+
+        
         initComponents();
         
         contactManager	= new ContactManagerImpl(basicDataSource);
@@ -180,9 +192,9 @@ public class ContactsManager extends javax.swing.JFrame {
         jButtonShowNumbers = new javax.swing.JButton();
 
         jLabelNewEditGroup.setFont(new java.awt.Font("Ubuntu", 1, 24)); // NOI18N
-        jLabelNewEditGroup.setText("GROUP");
+        jLabelNewEditGroup.setText(translate.getString("ContactsManager.jLabelNewEditGroup.text")); // NOI18N
 
-        jLabelGroupType.setText("Type:");
+        jLabelGroupType.setText(translate.getString("ContactsManager.jLabelGroupType.text")); // NOI18N
 
         jComboBoxGroupType.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "WORK", "FRIENDS", "FAMILY", "OTHERS" }));
         jComboBoxGroupType.addActionListener(new java.awt.event.ActionListener() {
@@ -191,7 +203,7 @@ public class ContactsManager extends javax.swing.JFrame {
             }
         });
 
-        jLabelGroupNote.setText("Note:");
+        jLabelGroupNote.setText(translate.getString("ContactsManager.jLabelGroupNote.text")); // NOI18N
 
         jTextFieldGroupNote.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -199,14 +211,14 @@ public class ContactsManager extends javax.swing.JFrame {
             }
         });
 
-        jButtonGroupCancel.setText("Cancel");
+        jButtonGroupCancel.setText(translate.getString("ContactsManager.jButtonGroupCancel.text")); // NOI18N
         jButtonGroupCancel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonGroupCancelActionPerformed(evt);
             }
         });
 
-        jButtonGroupOK.setText("OK");
+        jButtonGroupOK.setText(translate.getString("ContactsManager.jButtonGroupOK.text")); // NOI18N
         jButtonGroupOK.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jButtonGroupOKMouseClicked(evt);
@@ -265,17 +277,17 @@ public class ContactsManager extends javax.swing.JFrame {
                     .addComponent(jLabelGroupType)
                     .addGap(30, 30, 30)
                     .addComponent(jLabelGroupNote)
-                    .addContainerGap(119, Short.MAX_VALUE)))
+                    .addContainerGap(131, Short.MAX_VALUE)))
         );
 
         jLabelDeleteGroup.setFont(new java.awt.Font("Ubuntu", 1, 24)); // NOI18N
-        jLabelDeleteGroup.setText("DELETE GROUP");
+        jLabelDeleteGroup.setText(translate.getString("ContactsManager.jLabelDeleteGroup.text")); // NOI18N
 
-        jLabelDeleteGroupType.setText("Type:");
+        jLabelDeleteGroupType.setText(translate.getString("ContactsManager.jLabelDeleteGroupType.text")); // NOI18N
 
         jComboBoxDeleteGroup.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "WORK", "FRIENDS", "FAMILY", "OTHERS" }));
 
-        jButtonDeleteGroupOK.setText("OK");
+        jButtonDeleteGroupOK.setText(translate.getString("ContactsManager.jButtonDeleteGroupOK.text")); // NOI18N
         jButtonDeleteGroupOK.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jButtonDeleteGroupOKMouseClicked(evt);
@@ -287,7 +299,7 @@ public class ContactsManager extends javax.swing.JFrame {
             }
         });
 
-        jButtonDeleteGroupCancel.setText("Cancel");
+        jButtonDeleteGroupCancel.setText(translate.getString("ContactsManager.jButtonDeleteGroupCancel.text")); // NOI18N
         jButtonDeleteGroupCancel.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jButtonDeleteGroupCancelMouseClicked(evt);
@@ -340,13 +352,13 @@ public class ContactsManager extends javax.swing.JFrame {
         );
 
         jLabelEditContact.setFont(new java.awt.Font("Ubuntu", 1, 24)); // NOI18N
-        jLabelEditContact.setText("CONTACT");
+        jLabelEditContact.setText(translate.getString("ContactsManager.jLabelContact.text")); // NOI18N
 
-        jLabelName.setText("Name:");
+        jLabelName.setText(translate.getString("ContactsManager.jLabelName.text")); // NOI18N
 
-        jLabelSurname.setText("Surname:");
+        jLabelSurname.setText(translate.getString("ContactsManager.jLabelSurname.text")); // NOI18N
 
-        jLabelAddress.setText("Address:");
+        jLabelAddress.setText(translate.getString("ContactsManager.jLabelAddress.text")); // NOI18N
 
         jTextFieldName.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -357,7 +369,7 @@ public class ContactsManager extends javax.swing.JFrame {
         jPanelAddToGroup.setBackground(new java.awt.Color(254, 254, 254));
         jPanelAddToGroup.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
-        jLabelAddToGroup.setText("Add to group");
+        jLabelAddToGroup.setText(translate.getString("ContactsManager.jLabelAddToGroup.text")); // NOI18N
 
         jComboBoxContactGroup.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "WORK", "FRIENDS", "FAMILY", "OTHERS" }));
 
@@ -381,7 +393,7 @@ public class ContactsManager extends javax.swing.JFrame {
                 .addGap(0, 64, Short.MAX_VALUE))
         );
 
-        jLabelNumbers.setText("Numbers:");
+        jLabelNumbers.setText(translate.getString("ContactsManager.jLabelNumbers")); // NOI18N
 
         jPanelNumbers.setBackground(new java.awt.Color(254, 254, 254));
         jPanelNumbers.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
@@ -448,7 +460,7 @@ public class ContactsManager extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        jButtonContactOK.setText("OK");
+        jButtonContactOK.setText(translate.getString("ContactsManager.jButtonContactOK")); // NOI18N
         jButtonContactOK.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jButtonContactOKMouseClicked(evt);
@@ -460,7 +472,7 @@ public class ContactsManager extends javax.swing.JFrame {
             }
         });
 
-        jButtonContactCancel.setText("Cancel");
+        jButtonContactCancel.setText(translate.getString("ContactsManager.jButtonContactCancel")); // NOI18N
         jButtonContactCancel.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jButtonContactCancelMouseClicked(evt);
@@ -554,7 +566,7 @@ public class ContactsManager extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jLabel1.setFont(new java.awt.Font("Ubuntu", 1, 24)); // NOI18N
-        jLabel1.setText("CONTACTS MANAGER");
+        jLabel1.setText(translate.getString("ContactsManager.jLabel1.text")); // NOI18N
 
         jShowGroup.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "ALL CONTACTS", "WORK", "FRIENDS", "FAMILY", "OTHERS" }));
         jShowGroup.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -584,9 +596,9 @@ public class ContactsManager extends javax.swing.JFrame {
         jPanel1.setBackground(new java.awt.Color(207, 204, 201));
         jPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
-        jLabelContact.setText("CONTACT");
+        jLabelContact.setText(translate.getString("ContactsManager.jLabelContact.text")); // NOI18N
 
-        jButtonNewContact.setText("New");
+        jButtonNewContact.setText(translate.getString("ContactsManager.jButtonNewContact.text")); // NOI18N
         jButtonNewContact.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jButtonNewContactMouseClicked(evt);
@@ -598,7 +610,7 @@ public class ContactsManager extends javax.swing.JFrame {
             }
         });
 
-        jButtonEditContact.setText("Edit");
+        jButtonEditContact.setText(translate.getString("ContactsManager.jButtonEditContact.text")); // NOI18N
         jButtonEditContact.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jButtonEditContactMouseClicked(evt);
@@ -610,7 +622,7 @@ public class ContactsManager extends javax.swing.JFrame {
             }
         });
 
-        jButtonDeleteContact.setText("Delete");
+        jButtonDeleteContact.setText(translate.getString("ContactsManager.jButtonDeleteContact.text")); // NOI18N
         jButtonDeleteContact.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jButtonDeleteContactMouseClicked(evt);
@@ -652,9 +664,9 @@ public class ContactsManager extends javax.swing.JFrame {
         jPanel2.setBackground(new java.awt.Color(207, 204, 201));
         jPanel2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
-        jLabelGroup.setText("   GROUP");
+        jLabelGroup.setText(translate.getString("ContactsManager.jLabelGroup.text")); // NOI18N
 
-        jButtonNewGroup.setText("New");
+        jButtonNewGroup.setText(translate.getString("ContactsManager.jButtonNewGroup.text")); // NOI18N
         jButtonNewGroup.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jButtonNewGroupMouseClicked(evt);
@@ -666,7 +678,7 @@ public class ContactsManager extends javax.swing.JFrame {
             }
         });
 
-        jButtonEditGroup.setText("Edit");
+        jButtonEditGroup.setText(translate.getString("ContactsManager.jButtonEditGroup.text")); // NOI18N
         jButtonEditGroup.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jButtonEditGroupMouseClicked(evt);
@@ -678,7 +690,7 @@ public class ContactsManager extends javax.swing.JFrame {
             }
         });
 
-        jButtonDeleteGroup.setText("Delete");
+        jButtonDeleteGroup.setText(translate.getString("ContactsManager.jButtonDeleteGroup.text")); // NOI18N
         jButtonDeleteGroup.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jButtonDeleteGroupMouseClicked(evt);
@@ -723,14 +735,14 @@ public class ContactsManager extends javax.swing.JFrame {
             }
         });
 
-        jSearchButton.setText("Search");
+        jSearchButton.setText(translate.getString("ContactsManager.jSearchButton.text")); // NOI18N
         jSearchButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jSearchButtonActionPerformed(evt);
             }
         });
 
-        jButtonShowNumbers.setText("Show Numbers");
+        jButtonShowNumbers.setText(translate.getString("ContactsManager.jButtonShowNumbers.text")); // NOI18N
         jButtonShowNumbers.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonShowNumbersActionPerformed(evt);
@@ -768,9 +780,9 @@ public class ContactsManager extends javax.swing.JFrame {
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel1)
-                        .addGap(0, 255, Short.MAX_VALUE))))
+                        .addGap(0, 277, Short.MAX_VALUE))))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap(418, Short.MAX_VALUE)
                 .addComponent(jButtonShowNumbers)
                 .addGap(254, 254, 254))
         );
@@ -795,7 +807,7 @@ public class ContactsManager extends javax.swing.JFrame {
                         .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 316, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 316, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(103, Short.MAX_VALUE))
+                .addContainerGap(105, Short.MAX_VALUE))
         );
 
         pack();
@@ -884,7 +896,7 @@ public class ContactsManager extends javax.swing.JFrame {
     }//GEN-LAST:event_jSearchButtonActionPerformed
 
     private void jButtonNewContactActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonNewContactActionPerformed
-        textContactID.setText("");
+        textContactID.setText("aaaaa");
         jTextFieldName.setText("");
         jTextFieldSurname.setText("");
         jTextFieldAddress.setText("");

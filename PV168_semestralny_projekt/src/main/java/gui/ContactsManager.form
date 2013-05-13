@@ -60,7 +60,7 @@
                       <Component id="jLabelGroupType" min="-2" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="30" max="-2" attributes="0"/>
                       <Component id="jLabelGroupNote" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace pref="119" max="32767" attributes="0"/>
+                      <EmptySpace pref="131" max="32767" attributes="0"/>
                   </Group>
               </Group>
           </Group>
@@ -72,12 +72,16 @@
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Ubuntu" size="24" style="1"/>
             </Property>
-            <Property name="text" type="java.lang.String" value="GROUP"/>
+            <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+              <ResourceString bundle="gui/Bundle_en.properties" key="ContactsManager.jLabelNewEditGroup.text" replaceFormat="translate.getString(&quot;{key}&quot;)"/>
+            </Property>
           </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabelGroupType">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Type:"/>
+            <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+              <ResourceString bundle="gui/Bundle_en.properties" key="ContactsManager.jLabelGroupType.text" replaceFormat="translate.getString(&quot;{key}&quot;)"/>
+            </Property>
           </Properties>
         </Component>
         <Component class="javax.swing.JComboBox" name="jComboBoxGroupType">
@@ -97,7 +101,9 @@
         </Component>
         <Component class="javax.swing.JLabel" name="jLabelGroupNote">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Note:"/>
+            <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+              <ResourceString bundle="gui/Bundle_en.properties" key="ContactsManager.jLabelGroupNote.text" replaceFormat="translate.getString(&quot;{key}&quot;)"/>
+            </Property>
           </Properties>
         </Component>
         <Component class="javax.swing.JTextField" name="jTextFieldGroupNote">
@@ -107,7 +113,9 @@
         </Component>
         <Component class="javax.swing.JButton" name="jButtonGroupCancel">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Cancel"/>
+            <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+              <ResourceString bundle="gui/Bundle_en.properties" key="ContactsManager.jButtonGroupCancel.text" replaceFormat="translate.getString(&quot;{key}&quot;)"/>
+            </Property>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonGroupCancelActionPerformed"/>
@@ -115,7 +123,9 @@
         </Component>
         <Component class="javax.swing.JButton" name="jButtonGroupOK">
           <Properties>
-            <Property name="text" type="java.lang.String" value="OK"/>
+            <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+              <ResourceString bundle="gui/Bundle_en.properties" key="ContactsManager.jButtonGroupOK.text" replaceFormat="translate.getString(&quot;{key}&quot;)"/>
+            </Property>
           </Properties>
           <Events>
             <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jButtonGroupOKMouseClicked"/>
@@ -183,12 +193,16 @@
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Ubuntu" size="24" style="1"/>
             </Property>
-            <Property name="text" type="java.lang.String" value="DELETE GROUP"/>
+            <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+              <ResourceString bundle="gui/Bundle_en.properties" key="ContactsManager.jLabelDeleteGroup.text" replaceFormat="translate.getString(&quot;{key}&quot;)"/>
+            </Property>
           </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabelDeleteGroupType">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Type:"/>
+            <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+              <ResourceString bundle="gui/Bundle_en.properties" key="ContactsManager.jLabelDeleteGroupType.text" replaceFormat="translate.getString(&quot;{key}&quot;)"/>
+            </Property>
           </Properties>
         </Component>
         <Component class="javax.swing.JComboBox" name="jComboBoxDeleteGroup">
@@ -205,7 +219,9 @@
         </Component>
         <Component class="javax.swing.JButton" name="jButtonDeleteGroupOK">
           <Properties>
-            <Property name="text" type="java.lang.String" value="OK"/>
+            <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+              <ResourceString bundle="gui/Bundle_en.properties" key="ContactsManager.jButtonDeleteGroupOK.text" replaceFormat="translate.getString(&quot;{key}&quot;)"/>
+            </Property>
           </Properties>
           <Events>
             <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jButtonDeleteGroupOKMouseClicked"/>
@@ -214,7 +230,9 @@
         </Component>
         <Component class="javax.swing.JButton" name="jButtonDeleteGroupCancel">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Cancel"/>
+            <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+              <ResourceString bundle="gui/Bundle_en.properties" key="ContactsManager.jButtonDeleteGroupCancel.text" replaceFormat="translate.getString(&quot;{key}&quot;)"/>
+            </Property>
           </Properties>
           <Events>
             <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jButtonDeleteGroupCancelMouseClicked"/>
@@ -332,22 +350,30 @@
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Ubuntu" size="24" style="1"/>
             </Property>
-            <Property name="text" type="java.lang.String" value="CONTACT"/>
+            <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+              <ResourceString bundle="gui/Bundle_en.properties" key="ContactsManager.jLabelContact.text" replaceFormat="translate.getString(&quot;{key}&quot;)"/>
+            </Property>
           </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabelName">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Name:"/>
+            <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+              <ResourceString bundle="gui/Bundle_en.properties" key="ContactsManager.jLabelName.text" replaceFormat="translate.getString(&quot;{key}&quot;)"/>
+            </Property>
           </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabelSurname">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Surname:"/>
+            <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+              <ResourceString bundle="gui/Bundle_en.properties" key="ContactsManager.jLabelSurname.text" replaceFormat="translate.getString(&quot;{key}&quot;)"/>
+            </Property>
           </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabelAddress">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Address:"/>
+            <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+              <ResourceString bundle="gui/Bundle_en.properties" key="ContactsManager.jLabelAddress.text" replaceFormat="translate.getString(&quot;{key}&quot;)"/>
+            </Property>
           </Properties>
         </Component>
         <Component class="javax.swing.JTextField" name="jTextFieldName">
@@ -398,7 +424,9 @@
           <SubComponents>
             <Component class="javax.swing.JLabel" name="jLabelAddToGroup">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Add to group"/>
+                <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+                  <ResourceString bundle="gui/Bundle_en.properties" key="ContactsManager.jLabelAddToGroup.text" replaceFormat="translate.getString(&quot;{key}&quot;)"/>
+                </Property>
               </Properties>
             </Component>
             <Component class="javax.swing.JComboBox" name="jComboBoxContactGroup">
@@ -417,7 +445,9 @@
         </Container>
         <Component class="javax.swing.JLabel" name="jLabelNumbers">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Numbers:"/>
+            <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+              <ResourceString bundle="gui/Bundle_en.properties" key="ContactsManager.jLabelNumbers" replaceFormat="translate.getString(&quot;{key}&quot;)"/>
+            </Property>
           </Properties>
         </Component>
         <Container class="javax.swing.JPanel" name="jPanelNumbers">
@@ -567,7 +597,9 @@
         </Container>
         <Component class="javax.swing.JButton" name="jButtonContactOK">
           <Properties>
-            <Property name="text" type="java.lang.String" value="OK"/>
+            <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+              <ResourceString bundle="gui/Bundle_en.properties" key="ContactsManager.jButtonContactOK" replaceFormat="translate.getString(&quot;{key}&quot;)"/>
+            </Property>
           </Properties>
           <Events>
             <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jButtonContactOKMouseClicked"/>
@@ -576,7 +608,9 @@
         </Component>
         <Component class="javax.swing.JButton" name="jButtonContactCancel">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Cancel"/>
+            <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+              <ResourceString bundle="gui/Bundle_en.properties" key="ContactsManager.jButtonContactCancel" replaceFormat="translate.getString(&quot;{key}&quot;)"/>
+            </Property>
           </Properties>
           <Events>
             <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jButtonContactCancelMouseClicked"/>
@@ -647,12 +681,12 @@
                   </Group>
                   <Group type="102" attributes="0">
                       <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace min="0" pref="255" max="32767" attributes="0"/>
+                      <EmptySpace min="0" pref="277" max="32767" attributes="0"/>
                   </Group>
               </Group>
           </Group>
           <Group type="102" alignment="1" attributes="0">
-              <EmptySpace max="32767" attributes="0"/>
+              <EmptySpace pref="418" max="32767" attributes="0"/>
               <Component id="jButtonShowNumbers" min="-2" max="-2" attributes="0"/>
               <EmptySpace min="-2" pref="254" max="-2" attributes="0"/>
           </Group>
@@ -682,7 +716,7 @@
                   <Component id="jScrollPane1" min="-2" pref="316" max="-2" attributes="0"/>
                   <Component id="jScrollPane2" alignment="0" min="-2" pref="316" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace pref="103" max="32767" attributes="0"/>
+              <EmptySpace pref="105" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -693,7 +727,9 @@
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="Ubuntu" size="24" style="1"/>
         </Property>
-        <Property name="text" type="java.lang.String" value="CONTACTS MANAGER"/>
+        <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+          <ResourceString bundle="gui/Bundle_en.properties" key="ContactsManager.jLabel1.text" replaceFormat="translate.getString(&quot;{key}&quot;)"/>
+        </Property>
       </Properties>
     </Component>
     <Component class="javax.swing.JComboBox" name="jShowGroup">
@@ -843,12 +879,16 @@
       <SubComponents>
         <Component class="javax.swing.JLabel" name="jLabelContact">
           <Properties>
-            <Property name="text" type="java.lang.String" value="CONTACT"/>
+            <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+              <ResourceString bundle="gui/Bundle_en.properties" key="ContactsManager.jLabelContact.text" replaceFormat="translate.getString(&quot;{key}&quot;)"/>
+            </Property>
           </Properties>
         </Component>
         <Component class="javax.swing.JButton" name="jButtonNewContact">
           <Properties>
-            <Property name="text" type="java.lang.String" value="New"/>
+            <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+              <ResourceString bundle="gui/Bundle_en.properties" key="ContactsManager.jButtonNewContact.text" replaceFormat="translate.getString(&quot;{key}&quot;)"/>
+            </Property>
           </Properties>
           <Events>
             <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jButtonNewContactMouseClicked"/>
@@ -857,7 +897,9 @@
         </Component>
         <Component class="javax.swing.JButton" name="jButtonEditContact">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Edit"/>
+            <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+              <ResourceString bundle="gui/Bundle_en.properties" key="ContactsManager.jButtonEditContact.text" replaceFormat="translate.getString(&quot;{key}&quot;)"/>
+            </Property>
           </Properties>
           <Events>
             <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jButtonEditContactMouseClicked"/>
@@ -866,7 +908,9 @@
         </Component>
         <Component class="javax.swing.JButton" name="jButtonDeleteContact">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Delete"/>
+            <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+              <ResourceString bundle="gui/Bundle_en.properties" key="ContactsManager.jButtonDeleteContact.text" replaceFormat="translate.getString(&quot;{key}&quot;)"/>
+            </Property>
           </Properties>
           <Events>
             <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jButtonDeleteContactMouseClicked"/>
@@ -921,12 +965,16 @@
       <SubComponents>
         <Component class="javax.swing.JLabel" name="jLabelGroup">
           <Properties>
-            <Property name="text" type="java.lang.String" value="   GROUP"/>
+            <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+              <ResourceString bundle="gui/Bundle_en.properties" key="ContactsManager.jLabelGroup.text" replaceFormat="translate.getString(&quot;{key}&quot;)"/>
+            </Property>
           </Properties>
         </Component>
         <Component class="javax.swing.JButton" name="jButtonNewGroup">
           <Properties>
-            <Property name="text" type="java.lang.String" value="New"/>
+            <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+              <ResourceString bundle="gui/Bundle_en.properties" key="ContactsManager.jButtonNewGroup.text" replaceFormat="translate.getString(&quot;{key}&quot;)"/>
+            </Property>
           </Properties>
           <Events>
             <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jButtonNewGroupMouseClicked"/>
@@ -935,7 +983,9 @@
         </Component>
         <Component class="javax.swing.JButton" name="jButtonEditGroup">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Edit"/>
+            <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+              <ResourceString bundle="gui/Bundle_en.properties" key="ContactsManager.jButtonEditGroup.text" replaceFormat="translate.getString(&quot;{key}&quot;)"/>
+            </Property>
           </Properties>
           <Events>
             <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jButtonEditGroupMouseClicked"/>
@@ -944,7 +994,9 @@
         </Component>
         <Component class="javax.swing.JButton" name="jButtonDeleteGroup">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Delete"/>
+            <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+              <ResourceString bundle="gui/Bundle_en.properties" key="ContactsManager.jButtonDeleteGroup.text" replaceFormat="translate.getString(&quot;{key}&quot;)"/>
+            </Property>
           </Properties>
           <Events>
             <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jButtonDeleteGroupMouseClicked"/>
@@ -960,7 +1012,9 @@
     </Component>
     <Component class="javax.swing.JButton" name="jSearchButton">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Search"/>
+        <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+          <ResourceString bundle="gui/Bundle_en.properties" key="ContactsManager.jSearchButton.text" replaceFormat="translate.getString(&quot;{key}&quot;)"/>
+        </Property>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jSearchButtonActionPerformed"/>
@@ -968,7 +1022,9 @@
     </Component>
     <Component class="javax.swing.JButton" name="jButtonShowNumbers">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Show Numbers"/>
+        <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+          <ResourceString bundle="gui/Bundle_en.properties" key="ContactsManager.jButtonShowNumbers.text" replaceFormat="translate.getString(&quot;{key}&quot;)"/>
+        </Property>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonShowNumbersActionPerformed"/>
