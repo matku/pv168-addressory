@@ -1336,8 +1336,10 @@ public class ContactsManager extends javax.swing.JFrame {
                     switch(jComboBoxContactGroup.getSelectedItem().toString())
                     {
                         case "WORK":
+                            log.log(Level.INFO, "WORK");
                             if ((group = groupManager.findGroupByType(GroupType.WORK)) != null)
                             {
+                                log.log(Level.INFO, "group found");
                                 contactsManager.addContactToGroup(contact, group);
                                 isGroup = true;
                             }
@@ -1367,14 +1369,21 @@ public class ContactsManager extends javax.swing.JFrame {
                     }
                     
                 }
+                else
+                {
+                    isGroup = true;
+                }
+                
                 if (isGroup)
                 {
+                    log.log(Level.INFO, "isgroup");
                     contactManager.editContact(contact);
                     contactTableModel.removeContact(contactCached);
                     contactTableModel.addContact(contact);
                 }
                 else
                 {
+                    log.log(Level.INFO, "!isgroup");
                     contactTableModel.removeContact(contact);
                     contactManager.deleteContact(contact);
                 }
