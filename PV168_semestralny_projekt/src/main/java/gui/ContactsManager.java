@@ -11,7 +11,10 @@ import cz.muni.fi.pv168.projekt.pv168_semestralny_projekt.GroupManagerImpl;
 import cz.muni.fi.pv168.projekt.pv168_semestralny_projekt.GroupType;
 import cz.muni.fi.pv168.projekt.pv168_semestralny_projekt.NumberType;
 import java.util.List;
+import java.util.Locale;
+import java.util.Locale;
 import java.util.Map;
+import java.util.MissingResourceException;
 import java.util.TreeMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -174,7 +177,6 @@ public class ContactsManager extends javax.swing.JFrame {
         jButtonDeleteGroup = new javax.swing.JButton();
         jSearchField = new javax.swing.JTextField();
         jSearchButton = new javax.swing.JButton();
-        jComboBox1 = new javax.swing.JComboBox();
 
         jLabelNewEditGroup.setFont(new java.awt.Font("Ubuntu", 1, 24)); // NOI18N
         jLabelNewEditGroup.setText("GROUP");
@@ -727,13 +729,6 @@ public class ContactsManager extends javax.swing.JFrame {
             }
         });
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "EN", "CZ", "SK" }));
-        jComboBox1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jComboBox1ActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -762,20 +757,16 @@ public class ContactsManager extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jShowGroup, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap())
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 208, Short.MAX_VALUE)
-                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addGap(0, 255, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap()
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jShowGroup, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -972,22 +963,6 @@ public class ContactsManager extends javax.swing.JFrame {
     private void jSearchFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jSearchFieldActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jSearchFieldActionPerformed
-
-    private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
-        String lang = jComboBox1.getSelectedItem().toString();
-        switch(lang)
-        {
-            case "CZ":
-                jLabel1.setText("SEZNAM KONTAKTU");
-                //translate = java.util.ResourceBundle.getBundle("gui/Translation_cz");
-                break;
-            case "EN":
-                jLabel1.setText("CONTACTS MANAGER");
-                //translate = java.util.ResourceBundle.getBundle("gui/Translation_en");
-                break;
-        }
-        //jComboBox1.setSelectedIndex(0);
-    }//GEN-LAST:event_jComboBox1ActionPerformed
 
     private void jShowGroupActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jShowGroupActionPerformed
         String action = jShowGroup.getSelectedItem().toString();
@@ -1609,7 +1584,6 @@ public class ContactsManager extends javax.swing.JFrame {
     private javax.swing.JButton jButtonGroupOK;
     private javax.swing.JButton jButtonNewContact;
     private javax.swing.JButton jButtonNewGroup;
-    private javax.swing.JComboBox jComboBox1;
     private javax.swing.JComboBox jComboBoxContactGroup;
     private javax.swing.JComboBox jComboBoxDeleteGroup;
     private javax.swing.JComboBox jComboBoxGroupType;
