@@ -10,17 +10,19 @@ import cz.muni.fi.pv168.projekt.pv168_semestralny_projekt.GroupManager;
 import cz.muni.fi.pv168.projekt.pv168_semestralny_projekt.GroupManagerImpl;
 import cz.muni.fi.pv168.projekt.pv168_semestralny_projekt.GroupType;
 import cz.muni.fi.pv168.projekt.pv168_semestralny_projekt.NumberType;
+import java.io.FileInputStream;
 import java.util.List;
 import java.util.Locale;
 
 import java.util.Map;
-import java.util.MissingResourceException;
+//import java.util.MissingResourceException;
+import java.util.Properties;
 import java.util.ResourceBundle;
 import java.util.TreeMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.SwingWorker;
-import javax.swing.*;
+//import javax.swing.*;
 import org.apache.commons.dbcp.BasicDataSource;
 
 
@@ -83,12 +85,13 @@ public class ContactsManager extends javax.swing.JFrame {
     }
     
     private void setUp() throws Exception {
-//        Properties configFile = new Properties();
-//        configFile.load(new FileInputStream("src/config.properties"));
+        Properties configFile = new Properties();
+        configFile.load(new FileInputStream("src/main/resources/config.properties"));
+        log.log(Level.INFO, "loaded configfile");
 	BasicDataSource bds = new BasicDataSource();
-	bds.setUrl( "jdbc:derby://localhost:1527/skuska" );//configFile.getProperty( "url" ) );
-	bds.setPassword( "password" );//configFile.getProperty( "password" ) );
-	bds.setUsername( "martin" );//configFile.getProperty( "username" ) );
+	bds.setUrl( configFile.getProperty( "url" ) );
+	bds.setPassword( configFile.getProperty( "password" ) );
+	bds.setUsername( configFile.getProperty( "username" ) );
 	basicDataSource = bds;
     }
     
@@ -96,6 +99,7 @@ public class ContactsManager extends javax.swing.JFrame {
      * Creates new form ContactsManager
      */
     public ContactsManager() {
+        log.log(Level.INFO, "Starting application");
         Locale.setDefault(locale_cs);
         translate = ResourceBundle.getBundle("Bundle");
         try {
@@ -971,18 +975,18 @@ public class ContactsManager extends javax.swing.JFrame {
         Group group = null;
         try
         {
-            switch(jComboBoxGroupType.getSelectedItem().toString())
+            switch(jComboBoxGroupType.getSelectedIndex())
             {
-                case "WORK":
+                case 0:
                     group = groupManager.findGroupByType(GroupType.WORK);
                     break;
-                case "FRIENDS":
+                case 1:
                     group = groupManager.findGroupByType(GroupType.FRIENDS);
                     break;
-                case "FAMILY":
+                case 2:
                     group = groupManager.findGroupByType(GroupType.FAMILY);
                     break;
-                case "OTHERS":
+                case 3:
                     group = groupManager.findGroupByType(GroupType.OTHERS);
                     break;
             }
@@ -1020,19 +1024,19 @@ public class ContactsManager extends javax.swing.JFrame {
 
     private void jShowGroupActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jShowGroupActionPerformed
         jTextFieldError.setText("");
-        String action = jShowGroup.getSelectedItem().toString();
+        int action = jShowGroup.getSelectedIndex();
         numberTableModel.clear();
         contactTableModel.clear();
         jNote.setText("");
         Group group = null;
         switch(action)
         {
-            case "ALL CONTACTS":
+            case 0:
                 log.log(Level.INFO, "listing all contacts");
                 contactsSwingWorker = new ContactsSwingWorker();
                 contactsSwingWorker.execute();
                 break;
-            case "WORK":
+            case 1:
                 log.log(Level.INFO, "listing work contacts");
                 try {
                     if ((group = groupManager.findGroupByType(GroupType.WORK)) == null)
@@ -1049,7 +1053,7 @@ public class ContactsManager extends javax.swing.JFrame {
                     contactTableModel.addContact(contact);
                 }
                 break;
-            case "FRIENDS":
+            case 2:
                 log.log(Level.INFO, "listing friends contacts");
                 try {
                     if ((group = groupManager.findGroupByType(GroupType.FRIENDS)) == null)
@@ -1066,7 +1070,7 @@ public class ContactsManager extends javax.swing.JFrame {
                     contactTableModel.addContact(contact);
                 }
                 break;
-            case "FAMILY":
+            case 3:
                 log.log(Level.INFO, "listing family contacts");
                 try {
                     if ((group = groupManager.findGroupByType(GroupType.FAMILY)) == null)
@@ -1083,7 +1087,7 @@ public class ContactsManager extends javax.swing.JFrame {
                     contactTableModel.addContact(contact);
                 }
                 break;
-            case "OTHERS":
+            case 4:
                 log.log(Level.INFO, "listing other contacts");
                 try {
                     if ((group = groupManager.findGroupByType(GroupType.OTHERS)) == null)
@@ -1314,30 +1318,30 @@ public class ContactsManager extends javax.swing.JFrame {
                 boolean isGroup = false;
                 try
                 {
-                switch(jComboBoxContactGroup.getSelectedItem().toString())
+                switch(jComboBoxContactGroup.getSelectedIndex())
                 {
-                    case "WORK":
+                    case 0:
                         if ((group = groupManager.findGroupByType(GroupType.WORK)) != null)
                         {
                             contactsManager.addContactToGroup(contact, group);
                             isGroup = true;
                         }
                         break;
-                    case "FRIENDS":
+                    case 1:
                         if ((group = groupManager.findGroupByType(GroupType.FRIENDS)) != null)
                         {
                             contactsManager.addContactToGroup(contact, group);
                             isGroup = true;
                         }
                         break;
-                    case "FAMILY":
+                    case 2:
                         if ((group = groupManager.findGroupByType(GroupType.FAMILY)) != null)
                         {
                             contactsManager.addContactToGroup(contact, group);
                             isGroup = true;
                         }
                         break;
-                    case "OTHERS":
+                    case 3:
                         if ((group = groupManager.findGroupByType(GroupType.OTHERS)) != null)
                         {
                             contactsManager.addContactToGroup(contact, group);
@@ -1372,9 +1376,9 @@ public class ContactsManager extends javax.swing.JFrame {
                     Group group;
                     try
                     {
-                    switch(jComboBoxContactGroup.getSelectedItem().toString())
+                    switch(jComboBoxContactGroup.getSelectedIndex())
                     {
-                        case "WORK":
+                        case 0:
                             log.log(Level.INFO, "WORK");
                             if ((group = groupManager.findGroupByType(GroupType.WORK)) != null)
                             {
@@ -1383,19 +1387,19 @@ public class ContactsManager extends javax.swing.JFrame {
                                 isGroup = true;
                             }
                         break;
-                        case "FRIENDS":
+                        case 1:
                             if ((group = groupManager.findGroupByType(GroupType.FRIENDS)) != null)
                             {
                                 contactsManager.addContactToGroup(contact, group);
                                 isGroup = true;
                             }
-                        case "FAMILY":
+                        case 2:
                             if ((group = groupManager.findGroupByType(GroupType.FAMILY)) != null)
                             {
                                 contactsManager.addContactToGroup(contact, group);
                                 isGroup = true;
                             }
-                        case "OTHERS":
+                        case 3:
                             if ((group = groupManager.findGroupByType(GroupType.OTHERS)) != null)
                             {
                                 contactsManager.addContactToGroup(contact, group);
@@ -1468,12 +1472,12 @@ public class ContactsManager extends javax.swing.JFrame {
     private void jButtonGroupOKActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonGroupOKActionPerformed
         jTextFieldError.setText("");
         Group group = null;
-        String type = jComboBoxGroupType.getSelectedItem().toString();
+        int type = jComboBoxGroupType.getSelectedIndex();
         try
         {
             switch(type)
             {
-                case "WORK":
+                case 0:
                     if ((group = groupManager.findGroupByType(GroupType.WORK)) == null) //add
                     {
                         group = new Group();
@@ -1488,7 +1492,7 @@ public class ContactsManager extends javax.swing.JFrame {
                         groupManager.editGroup(group);
                     }
                     break;
-                case "FRIENDS":
+                case 1:
                     if ((group = groupManager.findGroupByType(GroupType.FRIENDS)) == null) //add
                     {
                         group = new Group();
@@ -1503,7 +1507,7 @@ public class ContactsManager extends javax.swing.JFrame {
                         groupManager.editGroup(group);
                     }
                     break;
-                case "FAMILY":
+                case 2:
                     if ((group = groupManager.findGroupByType(GroupType.FAMILY)) == null) //add
                     {
                         group = new Group();
@@ -1518,7 +1522,7 @@ public class ContactsManager extends javax.swing.JFrame {
                         groupManager.editGroup(group);
                     }
                     break;
-                case "OTHERS":
+                case 3:
                     if ((group = groupManager.findGroupByType(GroupType.OTHERS)) == null) //add
                     {
                         group = new Group();
@@ -1543,14 +1547,14 @@ public class ContactsManager extends javax.swing.JFrame {
 
     private void jButtonDeleteGroupOKActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonDeleteGroupOKActionPerformed
         jTextFieldError.setText("");
-        String type = jComboBoxDeleteGroup.getSelectedItem().toString();
+        int type = jComboBoxDeleteGroup.getSelectedIndex();
         Group group = null;
         List<Contact> contacts;
         try
         {
             switch(type)
             {
-                case "WORK":
+                case 0:
                     if ((group = groupManager.findGroupByType(GroupType.WORK)) == null)
                         break;
                     contacts = contactsManager.findAllContactsInGroup(group);
@@ -1561,7 +1565,7 @@ public class ContactsManager extends javax.swing.JFrame {
                     }
                     groupManager.deleteGroup(group);
                     break;
-                case "FRIENDS":
+                case 1:
                     if ((group = groupManager.findGroupByType(GroupType.FRIENDS)) == null)
                         break;
                     contacts = contactsManager.findAllContactsInGroup(group);
@@ -1572,7 +1576,7 @@ public class ContactsManager extends javax.swing.JFrame {
                     }
                     groupManager.deleteGroup(group);
                     break;
-                case "FAMILY":
+                case 2:
                     if ((group = groupManager.findGroupByType(GroupType.FAMILY)) == null)
                         break;
                     contacts = contactsManager.findAllContactsInGroup(group);
@@ -1583,7 +1587,7 @@ public class ContactsManager extends javax.swing.JFrame {
                     }
                     groupManager.deleteGroup(group);
                     break;
-                case "OTHERS":
+                case 3:
                     if ((group = groupManager.findGroupByType(GroupType.OTHERS)) == null)
                         break;
                     contacts = contactsManager.findAllContactsInGroup(group);
