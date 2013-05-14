@@ -4,6 +4,7 @@ import cz.muni.fi.pv168.projekt.pv168_semestralny_projekt.Contact;
 import cz.muni.fi.pv168.projekt.pv168_semestralny_projekt.ContactManager;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.logging.Logger;
 import javax.swing.table.AbstractTableModel;
 
@@ -11,6 +12,10 @@ import javax.swing.table.AbstractTableModel;
 
 public class NumberTableModel extends AbstractTableModel
 {
+    Locale locale_cs = new Locale("cs");
+    Locale locale_en = new Locale("en");
+    Locale locale_sk = new Locale("sk");
+    
     private static final Logger log = Logger.getLogger(NumberTableModel.class.getName());
     private ContactManager contactManager;
     private Contact contact;
@@ -83,9 +88,9 @@ public class NumberTableModel extends AbstractTableModel
     public String getColumnName(int columnIndex) {
 	switch (COLUMNS.values()[columnIndex]) {
 	    case TYPE:
-		return "TYPE";//java.util.ResourceBundle.getBundle("cz/muni/fi/pv168/autorental/gui/Bundle").getString("cars_table_id");
+		return java.util.ResourceBundle.getBundle("Bundle").getString("numbers_table_type");
 	    case NUMBER:
-		return "NUMBER";//java.util.ResourceBundle.getBundle("cz/muni/fi/pv168/autorental/gui/Bundle").getString("cars_table_model");
+		return java.util.ResourceBundle.getBundle("Bundle").getString("numbers_table_number");
 	    default:
 		throw new IllegalArgumentException("columnIndex");
 	}

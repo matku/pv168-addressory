@@ -4,6 +4,7 @@ import cz.muni.fi.pv168.projekt.pv168_semestralny_projekt.Contact;
 import cz.muni.fi.pv168.projekt.pv168_semestralny_projekt.ContactManager;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.table.AbstractTableModel;
@@ -12,6 +13,10 @@ import javax.swing.table.AbstractTableModel;
 
 public class ContactTableModel extends AbstractTableModel
 {
+    Locale locale_cs = new Locale("cs");
+    Locale locale_en = new Locale("en");
+    Locale locale_sk = new Locale("sk");
+    
     private static final Logger log = Logger.getLogger(ContactTableModel.class.getName());
     private ContactManager contactManager;
     private List<Contact> contacts = new ArrayList<Contact>();
@@ -83,18 +88,17 @@ public class ContactTableModel extends AbstractTableModel
 	return contacts;
     }
 
-     //TODO i18n
     @Override
     public String getColumnName(int columnIndex) {
 	switch (COLUMNS.values()[columnIndex]) {
 	    case ID:
-		return "ID";//java.util.ResourceBundle.getBundle("cz/muni/fi/pv168/autorental/gui/Bundle").getString("cars_table_id");
+		return java.util.ResourceBundle.getBundle("Bundle").getString("contacts_table_id");
 	    case NAME:
-		return "NAME";//java.util.ResourceBundle.getBundle("cz/muni/fi/pv168/autorental/gui/Bundle").getString("cars_table_model");
+		return java.util.ResourceBundle.getBundle("Bundle").getString("contacts_table_name");
 	    case SURNAME:
-		return "SURNAME";//java.util.ResourceBundle.getBundle("cz/muni/fi/pv168/autorental/gui/Bundle").getString("cars_table_plate");
+		return java.util.ResourceBundle.getBundle("Bundle").getString("contacts_table_surname");
 	    case ADDRESS:
-		return "ADDRESS";//java.util.ResourceBundle.getBundle("cz/muni/fi/pv168/autorental/gui/Bundle").getString("cars_table_fee");
+		return java.util.ResourceBundle.getBundle("Bundle").getString("contacts_table_address");
 	    default:
 		throw new IllegalArgumentException("columnIndex");
 	}

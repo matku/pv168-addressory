@@ -39,10 +39,10 @@ public class ContactsManager extends javax.swing.JFrame {
     Locale locale_en = new Locale("en");
     Locale locale_sk = new Locale("sk");
     
-    
        
 
-    ResourceBundle translate=ResourceBundle.getBundle("Bundle",Locale.getDefault());
+    
+    ResourceBundle translate=ResourceBundle.getBundle("Bundle");//, locale_cs);//Locale.getDefault());
     
     BasicDataSource basicDataSource = new BasicDataSource();
     private static final Logger log = Logger.getLogger(ContactsManager.class.getName());
@@ -96,6 +96,8 @@ public class ContactsManager extends javax.swing.JFrame {
      * Creates new form ContactsManager
      */
     public ContactsManager() {
+        Locale.setDefault(locale_cs);
+        translate = ResourceBundle.getBundle("Bundle");
         try {
             setUp();
         } catch (Exception ex) {
@@ -190,6 +192,7 @@ public class ContactsManager extends javax.swing.JFrame {
         jSearchField = new javax.swing.JTextField();
         jSearchButton = new javax.swing.JButton();
         jButtonShowNumbers = new javax.swing.JButton();
+        jTextFieldError = new javax.swing.JTextField();
 
         jLabelNewEditGroup.setFont(new java.awt.Font("Ubuntu", 1, 24)); // NOI18N
         jLabelNewEditGroup.setText(translate.getString("ContactsManager.jLabelNewEditGroup.text")); // NOI18N
@@ -749,29 +752,12 @@ public class ContactsManager extends javax.swing.JFrame {
             }
         });
 
+        jTextFieldError.setEditable(false);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(30, 30, 30)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 301, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jSearchField, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jSearchButton)
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jNote)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 288, Short.MAX_VALUE))
-                .addGap(33, 33, 33))
             .addGroup(layout.createSequentialGroup()
                 .addGap(261, 261, 261)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -782,9 +768,33 @@ public class ContactsManager extends javax.swing.JFrame {
                         .addComponent(jLabel1)
                         .addGap(0, 277, Short.MAX_VALUE))))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(418, Short.MAX_VALUE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jButtonShowNumbers)
                 .addGap(254, 254, 254))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jTextFieldError, javax.swing.GroupLayout.PREFERRED_SIZE, 595, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(30, 30, 30)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 301, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jSearchField, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jSearchButton)
+                                .addGap(0, 0, Short.MAX_VALUE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jNote)
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 288, Short.MAX_VALUE))))
+                .addGap(33, 33, 33))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -807,7 +817,9 @@ public class ContactsManager extends javax.swing.JFrame {
                         .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 316, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 316, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(105, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(jTextFieldError, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(56, Short.MAX_VALUE))
         );
 
         pack();
@@ -870,11 +882,20 @@ public class ContactsManager extends javax.swing.JFrame {
     }//GEN-LAST:event_jButtonContactCancelMouseClicked
 
     private void jSearchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jSearchButtonActionPerformed
+        jTextFieldError.setText("");
         String search = jSearchField.getText();
         Contact contact = null;
         if (search != null && !"".equals(search)) 
         {
-            contact = contactManager.findContactByName(search);
+            try
+            {
+                log.log(Level.INFO, "searching...");
+                contact = contactManager.findContactByName(search);
+            } catch (IndexOutOfBoundsException e)
+            {
+                log.log(Level.INFO, "error searching");
+                jTextFieldError.setText("you must enter whole name to search window");
+            }
         }
         else
         {
@@ -896,7 +917,8 @@ public class ContactsManager extends javax.swing.JFrame {
     }//GEN-LAST:event_jSearchButtonActionPerformed
 
     private void jButtonNewContactActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonNewContactActionPerformed
-        textContactID.setText("aaaaa");
+        jTextFieldError.setText("");
+        textContactID.setText("");
         jTextFieldName.setText("");
         jTextFieldSurname.setText("");
         jTextFieldAddress.setText("");
@@ -917,6 +939,7 @@ public class ContactsManager extends javax.swing.JFrame {
     }//GEN-LAST:event_jButtonNewContactActionPerformed
 
     private void jButtonNewGroupActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonNewGroupActionPerformed
+        jTextFieldError.setText("");
         jComboBoxGroupType.setSelectedIndex(0);
         jTextFieldGroupNote.setText("");
         jDialogGroup.pack();
@@ -929,18 +952,22 @@ public class ContactsManager extends javax.swing.JFrame {
     }//GEN-LAST:event_jTextFieldNameActionPerformed
 
     private void jButtonContactCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonContactCancelActionPerformed
+        jTextFieldError.setText("");
         jDialogContact.setVisible(false);
     }//GEN-LAST:event_jButtonContactCancelActionPerformed
 
     private void jButtonDeleteGroupCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonDeleteGroupCancelActionPerformed
+        jTextFieldError.setText("");
         jDialogDeleteGroup.setVisible(false);
     }//GEN-LAST:event_jButtonDeleteGroupCancelActionPerformed
 
     private void jButtonGroupCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonGroupCancelActionPerformed
+        jTextFieldError.setText("");
         jDialogGroup.setVisible(false);
     }//GEN-LAST:event_jButtonGroupCancelActionPerformed
 
     private void jComboBoxGroupTypeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxGroupTypeActionPerformed
+        jTextFieldError.setText("");
         Group group = null;
         try
         {
@@ -981,6 +1008,7 @@ public class ContactsManager extends javax.swing.JFrame {
     }//GEN-LAST:event_jComboBoxGroupTypeActionPerformed
 
     private void jButtonDeleteGroupActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonDeleteGroupActionPerformed
+        jTextFieldError.setText("");
         jDialogDeleteGroup.pack();
         jDialogDeleteGroup.setLocationRelativeTo(null);
         jDialogDeleteGroup.setVisible(true);
@@ -991,6 +1019,7 @@ public class ContactsManager extends javax.swing.JFrame {
     }//GEN-LAST:event_jSearchFieldActionPerformed
 
     private void jShowGroupActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jShowGroupActionPerformed
+        jTextFieldError.setText("");
         String action = jShowGroup.getSelectedItem().toString();
         numberTableModel.clear();
         contactTableModel.clear();
@@ -999,10 +1028,12 @@ public class ContactsManager extends javax.swing.JFrame {
         switch(action)
         {
             case "ALL CONTACTS":
+                log.log(Level.INFO, "listing all contacts");
                 contactsSwingWorker = new ContactsSwingWorker();
                 contactsSwingWorker.execute();
                 break;
             case "WORK":
+                log.log(Level.INFO, "listing work contacts");
                 try {
                     if ((group = groupManager.findGroupByType(GroupType.WORK)) == null)
                         return;
@@ -1019,6 +1050,7 @@ public class ContactsManager extends javax.swing.JFrame {
                 }
                 break;
             case "FRIENDS":
+                log.log(Level.INFO, "listing friends contacts");
                 try {
                     if ((group = groupManager.findGroupByType(GroupType.FRIENDS)) == null)
                         return;
@@ -1035,6 +1067,7 @@ public class ContactsManager extends javax.swing.JFrame {
                 }
                 break;
             case "FAMILY":
+                log.log(Level.INFO, "listing family contacts");
                 try {
                     if ((group = groupManager.findGroupByType(GroupType.FAMILY)) == null)
                         return;
@@ -1051,6 +1084,7 @@ public class ContactsManager extends javax.swing.JFrame {
                 }
                 break;
             case "OTHERS":
+                log.log(Level.INFO, "listing other contacts");
                 try {
                     if ((group = groupManager.findGroupByType(GroupType.OTHERS)) == null)
                         return;
@@ -1070,8 +1104,10 @@ public class ContactsManager extends javax.swing.JFrame {
     }//GEN-LAST:event_jShowGroupActionPerformed
 
     private void jButtonEditContactActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEditContactActionPerformed
+        jTextFieldError.setText("");
         if (jTableContact.getSelectedRowCount() != 1)
         {
+            jTextFieldError.setText("select 1 contact");
             return;
         }
         Long contact_id = (Long) contactTableModel.getValueAt(jTableContact.getSelectedRow(), 0);
@@ -1249,6 +1285,7 @@ public class ContactsManager extends javax.swing.JFrame {
     }//GEN-LAST:event_jComboBoxNumbers1ActionPerformed
 
     private void jButtonContactOKActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonContactOKActionPerformed
+        jTextFieldError.setText("");
         Contact contact = new Contact();
         
         contact.setName(jTextFieldName.getText());
@@ -1314,6 +1351,7 @@ public class ContactsManager extends javax.swing.JFrame {
                 }
                 if (!isGroup)
                 {
+                    jTextFieldError.setText("Group does not exist");
                     contactManager.deleteContact(contact);
                 }
                 else
@@ -1377,14 +1415,13 @@ public class ContactsManager extends javax.swing.JFrame {
                 
                 if (isGroup)
                 {
-                    log.log(Level.INFO, "isgroup");
                     contactManager.editContact(contact);
                     contactTableModel.removeContact(contactCached);
                     contactTableModel.addContact(contact);
                 }
                 else
                 {
-                    log.log(Level.INFO, "!isgroup");
+                    jTextFieldError.setText("Group does not exist");
                     contactTableModel.removeContact(contact);
                     contactManager.deleteContact(contact);
                 }
@@ -1398,6 +1435,7 @@ public class ContactsManager extends javax.swing.JFrame {
     }//GEN-LAST:event_jButtonContactOKActionPerformed
 
     private void jButtonDeleteContactActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonDeleteContactActionPerformed
+        jTextFieldError.setText("");
         if (jTableContact.getSelectedRowCount() == 0)
         {
             return;
@@ -1413,6 +1451,7 @@ public class ContactsManager extends javax.swing.JFrame {
     }//GEN-LAST:event_jButtonDeleteContactActionPerformed
 
     private void jButtonEditGroupActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEditGroupActionPerformed
+        jTextFieldError.setText("");
         jComboBoxGroupType.setSelectedIndex(0);
         try
         {
@@ -1427,6 +1466,7 @@ public class ContactsManager extends javax.swing.JFrame {
     }//GEN-LAST:event_jButtonEditGroupActionPerformed
 
     private void jButtonGroupOKActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonGroupOKActionPerformed
+        jTextFieldError.setText("");
         Group group = null;
         String type = jComboBoxGroupType.getSelectedItem().toString();
         try
@@ -1502,6 +1542,7 @@ public class ContactsManager extends javax.swing.JFrame {
     }//GEN-LAST:event_jButtonGroupOKActionPerformed
 
     private void jButtonDeleteGroupOKActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonDeleteGroupOKActionPerformed
+        jTextFieldError.setText("");
         String type = jComboBoxDeleteGroup.getSelectedItem().toString();
         Group group = null;
         List<Contact> contacts;
@@ -1564,9 +1605,11 @@ public class ContactsManager extends javax.swing.JFrame {
     }//GEN-LAST:event_jButtonDeleteGroupOKActionPerformed
 
     private void jButtonShowNumbersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonShowNumbersActionPerformed
+        jTextFieldError.setText("");
         numberTableModel.clear();
         if (jTableContact.getSelectedRowCount() != 1)
         {
+            jTextFieldError.setText("please, select contact");
             return;
         }
         Long contact_id = (Long) contactTableModel.getValueAt(jTableContact.getSelectedRow(), 0);
@@ -1671,6 +1714,7 @@ public class ContactsManager extends javax.swing.JFrame {
     private javax.swing.JTable jTableContact;
     private javax.swing.JTable jTableNumber;
     private javax.swing.JTextField jTextFieldAddress;
+    private javax.swing.JTextField jTextFieldError;
     private javax.swing.JTextField jTextFieldGroupNote;
     private javax.swing.JTextField jTextFieldName;
     private javax.swing.JTextField jTextFieldNumbers1;
